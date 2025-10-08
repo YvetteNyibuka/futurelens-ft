@@ -1,0 +1,122 @@
+/* NSIR Custom Color Classes for Frontend */
+/* Use these classes when you need exact NSIR colors */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom NSIR color utilities */
+@layer utilities {
+  /* Background Colors */
+  .bg-nsir-primary {
+    background-color: #2159a9 !important;
+  }
+
+  .bg-nsir-secondary {
+    background-color: #33abee !important;
+  }
+
+  .bg-nsir-primary-50 {
+    background-color: #eef3ff !important;
+  }
+
+  .bg-nsir-primary-100 {
+    background-color: #e0e9ff !important;
+  }
+
+  .bg-nsir-primary-300 {
+    background-color: #a3bafe !important;
+  }
+
+  .bg-nsir-secondary-50 {
+    background-color: #edfaff !important;
+  }
+
+  .bg-nsir-secondary-100 {
+    background-color: #d6f2ff !important;
+  }
+
+  .bg-nsir-secondary-300 {
+    background-color: #83dfff !important;
+  }
+
+  /* Text Colors */
+  .text-nsir-primary {
+    color: #2159a9 !important;
+  }
+
+  .text-nsir-secondary {
+    color: #33abee !important;
+  }
+
+  .text-nsir-primary-700 {
+    color: #3d40cf !important;
+  }
+
+  .text-nsir-secondary-700 {
+    color: #0284c7 !important;
+  }
+
+  /* Border Colors */
+  .border-nsir-primary {
+    border-color: #2159a9 !important;
+  }
+
+  .border-nsir-secondary {
+    border-color: #33abee !important;
+  }
+
+  .border-nsir-primary-300 {
+    border-color: #a3bafe !important;
+  }
+
+  .border-nsir-secondary-300 {
+    border-color: #83dfff !important;
+  }
+
+  /* Hover States */
+  .hover\:text-nsir-primary:hover {
+    color: #2159a9 !important;
+  }
+
+  .hover\:text-nsir-secondary:hover {
+    color: #33abee !important;
+  }
+
+  .hover\:bg-nsir-primary-50:hover {
+    background-color: #eef3ff !important;
+  }
+
+  .hover\:border-nsir-primary-300:hover {
+    border-color: #a3bafe !important;
+  }
+
+  /* Focus States */
+  .focus\:ring-nsir-primary-500:focus {
+    --tw-ring-color: #5e6bf6 !important;
+  }
+
+  .focus\:ring-nsir-secondary-500:focus {
+    --tw-ring-color: #33abee !important;
+  }
+
+  /* Group Hover States */
+  .group:hover .group-hover\:text-nsir-primary-700 {
+    color: #3d40cf !important;
+  }
+}
+
+/* Gradient utilities */
+@layer components {
+  .gradient-nsir-primary {
+    background: linear-gradient(135deg, #2159a9 0%, #3d40cf 100%);
+  }
+
+  .gradient-nsir-secondary {
+    background: linear-gradient(135deg, #33abee 0%, #0284c7 100%);
+  }
+
+  .gradient-nsir-combined {
+    background: linear-gradient(135deg, #2159a9 0%, #33abee 100%);
+  }
+}

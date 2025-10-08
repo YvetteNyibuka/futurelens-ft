@@ -3,6 +3,16 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --nsir-primary: #2159A9;
+  --nsir-secondary: #33ABEE;
+  --nsir-primary-50: #eef3ff;
+  --nsir-primary-100: #e0e9ff;
+  --nsir-primary-300: #a3bafe;
+  --nsir-primary-700: #3d40cf;
+  --nsir-secondary-50: #edfaff;
+  --nsir-secondary-100: #d6f2ff;
+  --nsir-secondary-300: #83dfff;
+  --nsir-secondary-700: #0284c7;
 }
 
 @theme inline {
@@ -24,3 +34,37 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* NSIR Custom Colors */
+.bg-nsir-primary { background-color: var(--nsir-primary) !important; }
+.bg-nsir-secondary { background-color: var(--nsir-secondary) !important; }
+.bg-nsir-primary-50 { background-color: var(--nsir-primary-50) !important; }
+.bg-nsir-primary-100 { background-color: var(--nsir-primary-100) !important; }
+.bg-nsir-primary-300 { background-color: var(--nsir-primary-300) !important; }
+.bg-nsir-secondary-50 { background-color: var(--nsir-secondary-50) !important; }
+.bg-nsir-secondary-100 { background-color: var(--nsir-secondary-100) !important; }
+.bg-nsir-secondary-300 { background-color: var(--nsir-secondary-300) !important; }
+
+.text-nsir-primary { color: var(--nsir-primary) !important; }
+.text-nsir-secondary { color: var(--nsir-secondary) !important; }
+.text-nsir-primary-700 { color: var(--nsir-primary-700) !important; }
+.text-nsir-secondary-700 { color: var(--nsir-secondary-700) !important; }
+
+.border-nsir-primary { border-color: var(--nsir-primary) !important; }
+.border-nsir-secondary { border-color: var(--nsir-secondary) !important; }
+.border-nsir-primary-300 { border-color: var(--nsir-primary-300) !important; }
+.border-nsir-secondary-300 { border-color: var(--nsir-secondary-300) !important; }
+
+.hover\:text-nsir-primary:hover { color: var(--nsir-primary) !important; }
+.hover\:text-nsir-secondary:hover { color: var(--nsir-secondary) !important; }
+.hover\:bg-nsir-primary-50:hover { background-color: var(--nsir-primary-50) !important; }
+.hover\:border-nsir-primary-300:hover { border-color: var(--nsir-primary-300) !important; }
+
+.group:hover .group-hover\:text-nsir-primary-700 { color: var(--nsir-primary-700) !important; }
+
+.focus\:ring-nsir-primary-500:focus { --tw-ring-color: var(--nsir-primary) !important; }
+.focus\:ring-nsir-secondary-500:focus { --tw-ring-color: var(--nsir-secondary) !important; }
+
+/* Gradients */
+.from-nsir-secondary-50 { --tw-gradient-from: var(--nsir-secondary-50) !important; }
+.to-nsir-primary-50 { --tw-gradient-to: var(--nsir-primary-50) !important; }
