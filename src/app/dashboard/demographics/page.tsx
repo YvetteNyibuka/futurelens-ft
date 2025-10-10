@@ -4,7 +4,7 @@ import nsirDataService from "@/services/nsirDataService";
 export default async function DashboardDemographicsPage() {
   // Fetch real data from NISR Data Service
   const healthData = await nsirDataService.getProcessedHealthData();
-  
+
   return (
     <div className="p-6 space-y-6">
       <div className="mb-6">
@@ -12,7 +12,8 @@ export default async function DashboardDemographicsPage() {
           Demographics Analysis
         </h1>
         <p className="text-gray-600">
-          Population demographics and health indicators across Rwanda for {healthData.overview.yearRange}
+          Population demographics and health indicators across Rwanda for{" "}
+          {healthData.overview.yearRange}
         </p>
       </div>
 
@@ -25,7 +26,9 @@ export default async function DashboardDemographicsPage() {
                 Total Population
               </p>
               <p className="text-2xl font-bold text-gray-900">12.6M</p>
-              <p className="text-sm text-green-600">{healthData.overview.lastUpdated.split('T')[0]} estimate</p>
+              <p className="text-sm text-green-600">
+                {healthData.overview.lastUpdated.split("T")[0]} estimate
+              </p>
             </div>
             <Users className="h-8 w-8 text-blue-600" />
           </div>
@@ -49,7 +52,9 @@ export default async function DashboardDemographicsPage() {
             <div>
               <p className="text-sm font-medium text-gray-600">Youth (15-24)</p>
               <p className="text-2xl font-bold text-gray-900">20.3%</p>
-              <p className="text-sm text-purple-600">From {healthData.overview.yearRange} data</p>
+              <p className="text-sm text-purple-600">
+                From {healthData.overview.yearRange} data
+              </p>
             </div>
             <BarChart3 className="h-8 w-8 text-purple-600" />
           </div>

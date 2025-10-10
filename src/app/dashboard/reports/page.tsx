@@ -4,13 +4,12 @@ import nsirDataService from "@/services/nsirDataService";
 export default async function DashboardReportsPage() {
   // Fetch real data from NISR Data Service
   const healthData = await nsirDataService.getProcessedHealthData();
-  const latestDate = healthData.overview.lastUpdated.split('T')[0];
-  
+  const latestDate = healthData.overview.lastUpdated.split("T")[0];
+
   const reports = [
     {
-      title: `Health Transformation Report ${latestDate.split('-')[0]}`,
-      description:
-        `Comprehensive analysis of Rwanda's health journey from ${healthData.overview.yearRange}`,
+      title: `Health Transformation Report ${latestDate.split("-")[0]}`,
+      description: `Comprehensive analysis of Rwanda's health journey from ${healthData.overview.yearRange}`,
       date: latestDate,
       type: "Annual Report",
       status: "Published",
@@ -18,35 +17,31 @@ export default async function DashboardReportsPage() {
     },
     {
       title: "Child Mortality Trends Analysis",
-      description:
-        `Detailed examination of ${healthData.overview.keyFindings[0]}`,
-      date: latestDate.replace(/-\d+$/, '-20'), // Create a slightly earlier date
+      description: `Detailed examination of ${healthData.overview.keyFindings[0]}`,
+      date: latestDate.replace(/-\d+$/, "-20"), // Create a slightly earlier date
       type: "Special Report",
       status: "Published",
       size: "1.8 MB",
     },
     {
       title: "Vaccination Coverage Study",
-      description:
-        `Provincial vaccination coverage analysis: ${healthData.overview.keyFindings[1]}`,
-      date: latestDate.replace(/-\d+$/, '-10'), // Create a slightly earlier date
+      description: `Provincial vaccination coverage analysis: ${healthData.overview.keyFindings[1]}`,
+      date: latestDate.replace(/-\d+$/, "-10"), // Create a slightly earlier date
       type: "Research Report",
       status: "Published",
       size: "3.1 MB",
     },
     {
       title: "Maternal Health Progress Report",
-      description:
-        `Analysis showing ${healthData.overview.keyFindings[4]}`,
-      date: latestDate.replace(/-\d+$/, '-05'), // Create a slightly earlier date
+      description: `Analysis showing ${healthData.overview.keyFindings[4]}`,
+      date: latestDate.replace(/-\d+$/, "-05"), // Create a slightly earlier date
       type: "Progress Report",
       status: "Published",
       size: "2.7 MB",
     },
     {
       title: "Evidence-Based Policy Recommendations",
-      description:
-        `Policy recommendations based on ${healthData.overview.totalSurveys} NISR surveys with focus on ${healthData.policyRecommendations[0].priority} priorities`,
+      description: `Policy recommendations based on ${healthData.overview.totalSurveys} NISR surveys with focus on ${healthData.policyRecommendations[0].priority} priorities`,
       date: latestDate,
       type: "Policy Brief",
       status: "Published",
@@ -61,7 +56,8 @@ export default async function DashboardReportsPage() {
           Health Reports
         </h1>
         <p className="text-gray-600">
-          Access and download comprehensive health analysis reports based on NISR data from {healthData.overview.yearRange}
+          Access and download comprehensive health analysis reports based on
+          NISR data from {healthData.overview.yearRange}
         </p>
       </div>
 

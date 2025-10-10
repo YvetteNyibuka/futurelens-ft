@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -14,7 +13,12 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  TooltipProps,
 } from "recharts";
+import {
+  NameType,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
 import {
   Award,
   TrendingUp,
@@ -165,60 +169,26 @@ export function HealthTransformationTimeline() {
           <YAxis yAxisId="left" orientation="left" />
           <YAxis yAxisId="right" orientation="right" />
           <Tooltip
-            content={({
-              active,
-              payload,
-              label,
-            }: {
-              active?: boolean;
-              payload?: Array<{
-                color: string;
-                dataKey: string;
-                name: string;
-                value: number;
-              }>;
-              label?: number;
-            }) => {
-              if (active && payload && payload.length) {
-                const data = transformationData.find((d) => d.year === label);
-                return (
-                  <div className="bg-white p-4 border border-gray-300 rounded-lg shadow-lg max-w-xs">
-                    <p className="font-bold text-gray-900 mb-2">{label}</p>
-                    {payload.map((entry, index: number) => (
-                      <p
-                        key={index}
-                        style={{ color: entry.color }}
-                        className="text-sm"
-                      >
-                        {entry.dataKey === "childMortality"
-                          ? "Child Mortality: "
-                          : entry.dataKey === "vaccination"
-                          ? "Vaccination: "
-                          : entry.dataKey === "skilledDelivery"
-                          ? "Skilled Delivery: "
-                          : entry.dataKey === "lifeExpectancy"
-                          ? "Life Expectancy: "
-                          : ""}
-                        {entry.value}
-                        {entry.dataKey === "childMortality"
-                          ? " per 1,000"
-                          : entry.dataKey === "lifeExpectancy"
-                          ? " years"
-                          : "%"}
-                      </p>
-                    ))}
-                    {data?.events && (
-                      <div className="mt-2 text-xs text-gray-600">
-                        <p className="font-medium">Key events:</p>
-                        {data.events.map((event, i) => (
-                          <p key={i}>• {event}</p>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                );
-              }
-              return null;
+            formatter={(value: number, name: string) => {
+              const displayName =
+                name === "childMortality"
+                  ? "Child Mortality"
+                  : name === "vaccination"
+                  ? "Vaccination"
+                  : name === "skilledDelivery"
+                  ? "Skilled Delivery"
+                  : name === "lifeExpectancy"
+                  ? "Life Expectancy"
+                  : name;
+
+              const unit =
+                name === "childMortality"
+                  ? " per 1,000"
+                  : name === "lifeExpectancy"
+                  ? " years"
+                  : "%";
+
+              return [`${value}${unit}`, displayName];
             }}
           />
           <Line
