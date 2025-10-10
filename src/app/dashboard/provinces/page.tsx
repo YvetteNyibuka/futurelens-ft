@@ -1,6 +1,27 @@
+"use client";
+
 import { MapPin, Users, TrendingUp, Calendar } from "lucide-react";
+import { useState, useEffect } from "react";
+import { RwandaHealthMap } from "@/components/maps/RwandaHealthMap";
+import { ProvincialTrendChart } from "@/components/charts/ProvincialTrendChart";
+import nsirDataService, {
+  ProcessedSurveyData,
+} from "@/services/nsirDataService";
 
 export default function DashboardProvincesPage() {
+  const [selectedIndicator, setSelectedIndicator] = useState("coverage_rate");
+  const [selectedProvince, setSelectedProvince] = useState("");
+  const [provinceData, setProvinceData] = useState<Record<string, any>>({});
+
+  useEffect(() => {
+    // Using the imported service instance directly
+    nsirDataService
+      .getProcessedHealthData()
+      .then((data: ProcessedSurveyData) => {
+        setProvinceData(data.provincialComparison);
+      });
+  }, []);
+
   return (
     <div className="p-6 space-y-6">
       <div className="mb-6">
@@ -14,166 +35,119 @@ export default function DashboardProvincesPage() {
 
       {/* Provincial Map Overview */}
       <div className="bg-white rounded-lg border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-          Rwanda Health Map
-        </h3>
-        <div className="h-80 bg-gradient-to-br from-blue-50 to-cyan-100 rounded-lg flex items-center justify-center">
-          <div className="text-center">
-            <MapPin className="h-16 w-16 text-blue-600 mx-auto mb-4" />
-            <p className="text-blue-700 font-medium text-lg">
-              Interactive Health Map
-            </p>
-            <p className="text-sm text-blue-600">
-              Click on provinces for detailed health data
-            </p>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-gray-900">
+            Rwanda Health Map
+          </h3>
+          <div className="flex items-center space-x-2">
+            <span className="text-sm text-gray-600">Indicator:</span>
+            <select
+              className="text-sm border-gray-300 rounded-md"
+              value={selectedIndicator}
+              onChange={(e) => setSelectedIndicator(e.target.value)}
+            >
+              <option value="coverage_rate">Health Coverage</option>
+              <option value="childMortality">Child Mortality</option>
+              <option value="vaccination">Vaccination Rate</option>
+            </select>
           </div>
         </div>
+        <div className="h-80 rounded-lg">
+          <RwandaHealthMap
+            selectedIndicator={selectedIndicator}
+            provinceData={provinceData}
+            onProvinceClick={(province: string) =>
+              setSelectedProvince(province)
+            }
+          />
+        </div>
+        <p className="text-sm text-center text-gray-600 mt-4">
+          Click on any province to view detailed health indicators
+        </p>
       </div>
 
       {/* Provincial Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Kigali Province */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Kigali</h3>
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-              Excellent
-            </span>
-          </div>
-          <div className="space-y-3">
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Population</span>
-              <span className="text-sm font-medium text-gray-900">1.1M</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Health Facilities</span>
-              <span className="text-sm font-medium text-gray-900">247</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Coverage Rate</span>
-              <span className="text-sm font-medium text-green-600">94.2%</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Urban Population</span>
-              <span className="text-sm font-medium text-gray-900">75.2%</span>
-            </div>
-          </div>
-        </div>
+        {Object.keys(provinceData).map((province) => {
+          const provinceInfo = provinceData[province];
+          const latestData = provinceInfo?.length
+            ? provinceInfo[provinceInfo.length - 1]
+            : null;
 
-        {/* Eastern Province */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Eastern</h3>
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-              Good
-            </span>
-          </div>
-          <div className="space-y-3">
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Population</span>
-              <span className="text-sm font-medium text-gray-900">2.6M</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Health Facilities</span>
-              <span className="text-sm font-medium text-gray-900">398</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Coverage Rate</span>
-              <span className="text-sm font-medium text-blue-600">87.8%</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Urban Population</span>
-              <span className="text-sm font-medium text-gray-900">12.3%</span>
-            </div>
-          </div>
-        </div>
+          if (!latestData) return null;
 
-        {/* Northern Province */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Northern</h3>
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-              Good
-            </span>
-          </div>
-          <div className="space-y-3">
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Population</span>
-              <span className="text-sm font-medium text-gray-900">1.9M</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Health Facilities</span>
-              <span className="text-sm font-medium text-gray-900">289</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Coverage Rate</span>
-              <span className="text-sm font-medium text-blue-600">85.4%</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Urban Population</span>
-              <span className="text-sm font-medium text-gray-900">8.7%</span>
-            </div>
-          </div>
-        </div>
+          const coverageRate = latestData.vaccination?.dpt3 || 0;
+          const statusColor =
+            coverageRate > 90
+              ? "bg-green-100 text-green-800"
+              : coverageRate > 80
+              ? "bg-blue-100 text-blue-800"
+              : "bg-yellow-100 text-yellow-800";
+          const statusText =
+            coverageRate > 90
+              ? "Excellent"
+              : coverageRate > 80
+              ? "Good"
+              : "Average";
 
-        {/* Southern Province */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Southern</h3>
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-              Fair
-            </span>
-          </div>
-          <div className="space-y-3">
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Population</span>
-              <span className="text-sm font-medium text-gray-900">2.8M</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Health Facilities</span>
-              <span className="text-sm font-medium text-gray-900">342</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Coverage Rate</span>
-              <span className="text-sm font-medium text-yellow-600">78.9%</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Urban Population</span>
-              <span className="text-sm font-medium text-gray-900">11.2%</span>
-            </div>
-          </div>
-        </div>
+          const isSelected = selectedProvince === province;
 
-        {/* Western Province */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Western</h3>
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-              Good
-            </span>
-          </div>
-          <div className="space-y-3">
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Population</span>
-              <span className="text-sm font-medium text-gray-900">2.2M</span>
+          return (
+            <div
+              key={province}
+              className={`bg-white rounded-lg border ${
+                isSelected ? "border-blue-500 shadow-lg" : "border-gray-200"
+              } p-6 hover:shadow-lg transition-shadow cursor-pointer`}
+              onClick={() => setSelectedProvince(province)}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {province}
+                </h3>
+                <span
+                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColor}`}
+                >
+                  {statusText}
+                </span>
+              </div>
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-sm text-gray-600">Child Mortality</span>
+                  <span className="text-sm font-medium text-gray-900">
+                    {latestData.childMortality || 0} per 1,000
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm text-gray-600">
+                    Vaccination Rate
+                  </span>
+                  <span className="text-sm font-medium text-blue-600">
+                    {coverageRate}%
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm text-gray-600">Stunting</span>
+                  <span className="text-sm font-medium text-gray-900">
+                    {latestData.stunting || 0}%
+                  </span>
+                </div>
+                {latestData.maternalHealth && (
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-600">
+                      Skilled Birth Attendance
+                    </span>
+                    <span className="text-sm font-medium text-gray-900">
+                      {latestData.maternalHealth.skilledDelivery || 0}%
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Health Facilities</span>
-              <span className="text-sm font-medium text-gray-900">318</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Coverage Rate</span>
-              <span className="text-sm font-medium text-blue-600">82.1%</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Urban Population</span>
-              <span className="text-sm font-medium text-gray-900">14.6%</span>
-            </div>
-          </div>
-        </div>
+          );
+        })}
 
         {/* National Summary */}
-        <div className="bg-gradient-to-br from-blue-600 to-cyan-600 rounded-lg p-6 text-white">
+        <div className="bg-gradient-to-br from-blue-950 to-blue-700 rounded-lg p-6 text-white">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold">National Average</h3>
             <Users className="h-6 w-6" />
@@ -192,8 +166,8 @@ export default function DashboardProvincesPage() {
               <span className="font-medium">85.7%</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-blue-100">Urban Population</span>
-              <span className="font-medium">17.4%</span>
+              <span className="text-blue-100">Child Mortality</span>
+              <span className="font-medium">32.1 per 1,000</span>
             </div>
           </div>
         </div>
@@ -201,18 +175,37 @@ export default function DashboardProvincesPage() {
 
       {/* Provincial Health Trends */}
       <div className="bg-white rounded-lg border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-          Provincial Health Trends
-        </h3>
-        <div className="h-64 bg-gradient-to-br from-emerald-50 to-green-100 rounded-lg flex items-center justify-center">
-          <div className="text-center">
-            <TrendingUp className="h-12 w-12 text-green-600 mx-auto mb-2" />
-            <p className="text-green-700 font-medium">Health Trends Chart</p>
-            <p className="text-sm text-green-600">
-              Provincial health improvements over time
-            </p>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-gray-900">
+            Provincial Health Trends
+          </h3>
+          <div className="flex items-center space-x-2">
+            <span className="text-sm text-gray-600">Metric:</span>
+            <select
+              className="text-sm border-gray-300 rounded-md"
+              value={selectedIndicator}
+              onChange={(e) => setSelectedIndicator(e.target.value)}
+            >
+              <option value="childMortality">Child Mortality</option>
+              <option value="vaccination">Vaccination Coverage</option>
+              <option value="coverage_rate">Health Coverage</option>
+            </select>
           </div>
         </div>
+        <div className="h-64">
+          <ProvincialTrendChart
+            provinceData={provinceData}
+            selectedProvince={selectedProvince}
+            indicator={
+              selectedIndicator as "childMortality" | "vaccination" | "stunting"
+            }
+          />
+        </div>
+        <p className="text-sm text-center text-gray-600 mt-4">
+          {selectedIndicator === "childMortality"
+            ? "Lower values indicate better outcomes"
+            : "Higher values indicate better coverage"}
+        </p>
       </div>
 
       {/* Recent Updates */}
@@ -231,24 +224,24 @@ export default function DashboardProvincesPage() {
               <p className="text-xs text-blue-600">2 days ago</p>
             </div>
           </div>
-          <div className="flex items-start space-x-4 p-4 bg-green-50 rounded-lg">
-            <Calendar className="h-5 w-5 text-green-600 mt-0.5" />
+          <div className="flex items-start space-x-4 p-4 bg-blue-50 rounded-lg">
+            <Calendar className="h-5 w-5 text-blue-700 mt-0.5" />
             <div>
               <p className="font-medium text-gray-900">Kigali</p>
               <p className="text-sm text-gray-600">
                 Vaccination campaign reached 98% coverage
               </p>
-              <p className="text-xs text-green-600">1 week ago</p>
+              <p className="text-xs text-blue-700">1 week ago</p>
             </div>
           </div>
-          <div className="flex items-start space-x-4 p-4 bg-yellow-50 rounded-lg">
-            <Calendar className="h-5 w-5 text-yellow-600 mt-0.5" />
+          <div className="flex items-start space-x-4 p-4 bg-blue-50 rounded-lg">
+            <Calendar className="h-5 w-5 text-blue-800 mt-0.5" />
             <div>
               <p className="font-medium text-gray-900">Southern Province</p>
               <p className="text-sm text-gray-600">
                 Mobile clinic program expansion in rural areas
               </p>
-              <p className="text-xs text-yellow-600">2 weeks ago</p>
+              <p className="text-xs text-blue-800">2 weeks ago</p>
             </div>
           </div>
         </div>

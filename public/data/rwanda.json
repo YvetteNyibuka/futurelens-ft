@@ -1,0 +1,120 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kigali",
+        "id": "kigali",
+        "population": 1100000,
+        "health_facilities": 247,
+        "coverage_rate": 94.2,
+        "urbanization": 75.2
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [30.04, -1.94],
+            [30.12, -1.94],
+            [30.12, -1.88],
+            [30.04, -1.88],
+            [30.04, -1.94]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Eastern",
+        "id": "eastern",
+        "population": 2600000,
+        "health_facilities": 398,
+        "coverage_rate": 87.8,
+        "urbanization": 12.3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [30.12, -1.5],
+            [30.85, -1.5],
+            [30.85, -2.2],
+            [30.12, -2.2],
+            [30.12, -1.5]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Northern",
+        "id": "northern",
+        "population": 1900000,
+        "health_facilities": 289,
+        "coverage_rate": 85.4,
+        "urbanization": 8.5
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [29.5, -1.4],
+            [30.12, -1.4],
+            [30.12, -1.88],
+            [29.5, -1.88],
+            [29.5, -1.4]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Western",
+        "id": "western",
+        "population": 2200000,
+        "health_facilities": 318,
+        "coverage_rate": 82.1,
+        "urbanization": 7.2
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [29.0, -1.5],
+            [29.5, -1.5],
+            [29.5, -2.5],
+            [29.0, -2.5],
+            [29.0, -1.5]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Southern",
+        "id": "southern",
+        "population": 2800000,
+        "health_facilities": 342,
+        "coverage_rate": 78.9,
+        "urbanization": 10.1
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [29.5, -2.0],
+            [30.12, -2.0],
+            [30.12, -2.5],
+            [29.5, -2.5],
+            [29.5, -2.0]
+          ]
+        ]
+      }
+    }
+  ]
+}

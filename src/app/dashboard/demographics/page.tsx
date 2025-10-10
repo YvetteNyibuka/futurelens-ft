@@ -1,5 +1,9 @@
 import { Users, TrendingUp, BarChart3, PieChart } from "lucide-react";
 import nsirDataService from "@/services/nsirDataService";
+import {
+  DemographicsAgeChart,
+  DemographicsGeographicChart,
+} from "@/components/charts/DemographicsClientCharts";
 
 export default async function DashboardDemographicsPage() {
   // Fetch real data from NISR Data Service
@@ -78,30 +82,14 @@ export default async function DashboardDemographicsPage() {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Age Distribution
           </h3>
-          <div className="h-64 bg-gradient-to-br from-purple-50 to-indigo-100 rounded-lg flex items-center justify-center">
-            <div className="text-center">
-              <BarChart3 className="h-12 w-12 text-purple-600 mx-auto mb-2" />
-              <p className="text-purple-700 font-medium">
-                Age Distribution Chart
-              </p>
-              <p className="text-sm text-purple-600">
-                Population by age groups
-              </p>
-            </div>
-          </div>
+          <DemographicsAgeChart />
         </div>
 
         <div className="bg-white rounded-lg border border-gray-200 p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Geographic Distribution
           </h3>
-          <div className="h-64 bg-gradient-to-br from-green-50 to-emerald-100 rounded-lg flex items-center justify-center">
-            <div className="text-center">
-              <PieChart className="h-12 w-12 text-green-600 mx-auto mb-2" />
-              <p className="text-green-700 font-medium">Geographic Chart</p>
-              <p className="text-sm text-green-600">Provincial distribution</p>
-            </div>
-          </div>
+          <DemographicsGeographicChart />
         </div>
       </div>
 
