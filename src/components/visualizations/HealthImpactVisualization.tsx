@@ -1,7 +1,3 @@
-/**
- * Rwanda Health Transformation Visualization
- * Compelling visual story of Rwanda's health journey using NISR data
- */
 
 "use client";
 
