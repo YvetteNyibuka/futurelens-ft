@@ -159,8 +159,8 @@ export function VaccinationCoverageChart() {
             type="monotone"
             dataKey="bcg"
             stackId="3"
-            stroke="#10B981"
-            fill="#10B981"
+            stroke="#0c2461"
+            fill="#0c2461"
             fillOpacity={0.7}
             name="BCG"
           />
@@ -176,7 +176,7 @@ export function VaccinationCoverageChart() {
           <span className="text-gray-700">Measles</span>
         </div>
         <div className="flex items-center space-x-2">
-          <div className="w-4 h-3 bg-green-500 opacity-70"></div>
+          <div className="w-4 h-3 bg-blue-950 opacity-70"></div>
           <span className="text-gray-700">BCG</span>
         </div>
       </div>

@@ -7,6 +7,10 @@ import {
   ArrowDownRight,
 } from "lucide-react";
 import nsirDataService from "@/services/nsirDataService";
+import {
+  HealthTrendAnalysisChart,
+  ProvincialComparisonChart,
+} from "@/components/charts/NSIRCharts";
 
 export default async function DashboardAnalyticsPage() {
   // Fetch real data from NISR Data Service
@@ -122,14 +126,14 @@ export default async function DashboardAnalyticsPage() {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Health Trend Analysis
           </h3>
-          <div className="h-64 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg flex items-center justify-center">
-            <div className="text-center">
-              <TrendingUp className="h-12 w-12 text-blue-600 mx-auto mb-2" />
-              <p className="text-blue-700 font-medium">Trend Analysis Chart</p>
-              <p className="text-sm text-blue-600">
-                28-year health transformation
-              </p>
-            </div>
+          <div className="h-80">
+            <HealthTrendAnalysisChart
+              childMortalityData={healthData.trends.childMortalityTrend}
+              vaccinationData={healthData.trends.vaccinationTrend}
+            />
+          </div>
+          <div className="text-xs text-gray-500 mt-2 text-center">
+            Source: NISR health surveys {healthData.overview.yearRange}
           </div>
         </div>
 
@@ -137,12 +141,14 @@ export default async function DashboardAnalyticsPage() {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Provincial Comparison
           </h3>
-          <div className="h-64 bg-gradient-to-br from-green-50 to-emerald-100 rounded-lg flex items-center justify-center">
-            <div className="text-center">
-              <BarChart3 className="h-12 w-12 text-green-600 mx-auto mb-2" />
-              <p className="text-green-700 font-medium">Comparative Analysis</p>
-              <p className="text-sm text-green-600">5 provinces overview</p>
-            </div>
+          <div className="h-80">
+            <ProvincialComparisonChart
+              provincialData={healthData.provincialComparison}
+            />
+          </div>
+          <div className="text-xs text-gray-500 mt-2 text-center">
+            Provincial health indicators based on{" "}
+            {healthData.overview.totalSurveys} NISR surveys
           </div>
         </div>
       </div>
