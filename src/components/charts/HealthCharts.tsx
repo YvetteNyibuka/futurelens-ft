@@ -15,6 +15,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  PieLabelRenderProps,
 } from "recharts";
 
 // Child Mortality Trends (1992-2020)
@@ -232,9 +233,13 @@ export function HealthIndicatorsPieChart() {
             outerRadius={100}
             fill="#8884d8"
             dataKey="value"
-            label={({ name, percent }: { name: string; percent: number }) =>
-              `${name} ${(percent * 100).toFixed(0)}%`
-            }
+            label={(props: PieLabelRenderProps) => {
+              const name = props.name as string;
+              // Ensure percent is a number with a default of 0
+              const percent =
+                typeof props.percent === "number" ? props.percent : 0;
+              return name ? `${name} ${(percent * 100).toFixed(0)}%` : "";
+            }}
           >
             {healthIndicatorsData.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.color} />

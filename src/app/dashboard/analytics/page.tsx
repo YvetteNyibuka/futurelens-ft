@@ -6,8 +6,23 @@ import {
   ArrowUpRight,
   ArrowDownRight,
 } from "lucide-react";
+import nsirDataService from "@/services/nsirDataService";
 
-export default function DashboardAnalyticsPage() {
+export default async function DashboardAnalyticsPage() {
+  // Fetch real data from NISR Data Service
+  const healthData = await nsirDataService.getProcessedHealthData();
+  const realTimeInsights = await nsirDataService.getRealTimeInsights();
+  
+  // Calculate the child mortality reduction percentage
+  const firstYear = healthData.trends.childMortalityTrend[0];
+  const latestYear = healthData.trends.childMortalityTrend[healthData.trends.childMortalityTrend.length - 1];
+  const mortalityReduction = Math.round(((firstYear.rate - latestYear.rate) / firstYear.rate) * 100);
+  
+  // Get vaccination improvement
+  const firstVaccYear = healthData.trends.vaccinationTrend[0];
+  const latestVaccYear = healthData.trends.vaccinationTrend[healthData.trends.vaccinationTrend.length - 1];
+  const vaccinationImprovement = Math.round(latestVaccYear.coverage - firstVaccYear.coverage);
+  
   return (
     <div className="p-6 space-y-6 min-h-screen w-full">
       <div className="mb-6">
@@ -15,7 +30,7 @@ export default function DashboardAnalyticsPage() {
           Health Analytics
         </h1>
         <p className="text-gray-600">
-          Detailed analysis of Rwanda's health indicators and trends
+          Detailed analysis of Rwanda's health indicators and trends {healthData.overview.yearRange}
         </p>
       </div>
 
@@ -27,10 +42,10 @@ export default function DashboardAnalyticsPage() {
               <p className="text-sm font-medium text-gray-600">
                 Child Mortality Rate
               </p>
-              <p className="text-2xl font-bold text-gray-900">32.1</p>
+              <p className="text-2xl font-bold text-gray-900">{realTimeInsights.keyMetrics[0].value}</p>
               <p className="text-sm text-green-600 flex items-center">
                 <ArrowDownRight className="h-4 w-4 mr-1" />
-                -70% since 1992
+                {mortalityReduction}% since {firstYear.year}
               </p>
             </div>
             <Activity className="h-8 w-8 text-blue-600" />
@@ -43,10 +58,10 @@ export default function DashboardAnalyticsPage() {
               <p className="text-sm font-medium text-gray-600">
                 Vaccination Coverage
               </p>
-              <p className="text-2xl font-bold text-gray-900">95.2%</p>
+              <p className="text-2xl font-bold text-gray-900">{realTimeInsights.keyMetrics[1].value}%</p>
               <p className="text-sm text-green-600 flex items-center">
                 <ArrowUpRight className="h-4 w-4 mr-1" />
-                +65% improvement
+                +{vaccinationImprovement}% improvement
               </p>
             </div>
             <TrendingUp className="h-8 w-8 text-green-600" />
