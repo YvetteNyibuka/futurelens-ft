@@ -3,7 +3,7 @@ import { ArrowRight, BarChart3, Map, TrendingUp, Users } from "lucide-react";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-green-50">
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-16">
         <div className="text-center max-w-4xl mx-auto">
@@ -13,7 +13,7 @@ export default function HomePage() {
 
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
             Rwanda's Health
-            <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
               {" "}
               Transformation Story
             </span>
@@ -108,7 +108,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-green-600 py-16">
+      <section className="bg-linear-to-r from-blue-600 to-green-600 py-16">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">
             Ready to Explore Rwanda's Health Data?
@@ -131,7 +131,7 @@ export default function HomePage() {
       <footer className="bg-gray-900 text-white py-8">
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center space-x-3 mb-4">
-            <div className="h-8 w-8 bg-gradient-to-br from-blue-500 to-green-500 rounded-lg flex items-center justify-center">
+            <div className="h-8 w-8 bg-linear-to-br from-blue-500 to-green-500 rounded-lg flex items-center justify-center">
               <BarChart3 className="h-5 w-5 text-white" />
             </div>
             <span className="text-lg font-semibold">FutureLens Rwanda</span>

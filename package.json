@@ -12,6 +12,7 @@
     "@tanstack/react-query": "^5.90.2",
     "axios": "^1.12.2",
     "clsx": "^2.1.1",
+    "csv-parse": "^6.1.0",
     "d3-geo": "^3.1.1",
     "d3-scale": "^4.0.2",
     "lucide-react": "^0.545.0",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/csv-parse": "^1.1.12",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

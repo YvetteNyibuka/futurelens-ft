@@ -1,13 +1,50 @@
+"use client";
+
 import { Users, TrendingUp, BarChart3, PieChart } from "lucide-react";
-import nsirDataService from "@/services/nsirDataService";
+import { useQuery } from "@tanstack/react-query";
+import {
+  HealthDataService,
+  healthDataQueries,
+} from "@/services/healthDataService";
 import {
   DemographicsAgeChart,
   DemographicsGeographicChart,
 } from "@/components/charts/DemographicsClientCharts";
 
-export default async function DashboardDemographicsPage() {
-  // Fetch real data from NISR Data Service
-  const healthData = await nsirDataService.getProcessedHealthData();
+export default function DashboardDemographicsPage() {
+  // Fetch real data from Health Data Service
+  const {
+    data: demographicsData,
+    isLoading,
+    error,
+  } = useQuery(healthDataQueries.demographicsData());
+
+  const { data: dashboardStats } = useQuery(healthDataQueries.dashboardStats());
+
+  if (isLoading) {
+    return (
+      <div className="p-6">
+        <div className="animate-pulse space-y-6">
+          <div className="h-8 bg-gray-200 rounded w-1/3"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="h-32 bg-gray-200 rounded"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-6">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+          <p className="text-red-800">Error loading demographics data</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 space-y-6">
@@ -16,8 +53,9 @@ export default async function DashboardDemographicsPage() {
           Demographics Analysis
         </h1>
         <p className="text-gray-600">
-          Population demographics and health indicators across Rwanda for{" "}
-          {healthData.overview.yearRange}
+          Population demographics and health indicators from{" "}
+          {dashboardStats?.totalSurveys || "28+"} surveys spanning multiple
+          decades
         </p>
       </div>
 
@@ -30,9 +68,7 @@ export default async function DashboardDemographicsPage() {
                 Total Population
               </p>
               <p className="text-2xl font-bold text-gray-900">12.6M</p>
-              <p className="text-sm text-green-600">
-                {healthData.overview.lastUpdated.split("T")[0]} estimate
-              </p>
+              <p className="text-sm text-green-600">Latest estimate</p>
             </div>
             <Users className="h-8 w-8 text-blue-600" />
           </div>
@@ -45,7 +81,7 @@ export default async function DashboardDemographicsPage() {
                 Urban Population
               </p>
               <p className="text-2xl font-bold text-gray-900">17.4%</p>
-              <p className="text-sm text-blue-600">Based on latest NISR data</p>
+              <p className="text-sm text-blue-600">Rapid urbanization</p>
             </div>
             <TrendingUp className="h-8 w-8 text-green-600" />
           </div>
@@ -57,7 +93,7 @@ export default async function DashboardDemographicsPage() {
               <p className="text-sm font-medium text-gray-600">Youth (15-24)</p>
               <p className="text-2xl font-bold text-gray-900">20.3%</p>
               <p className="text-sm text-purple-600">
-                From {healthData.overview.yearRange} data
+                Youth demographic dividend
               </p>
             </div>
             <BarChart3 className="h-8 w-8 text-purple-600" />

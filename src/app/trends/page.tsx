@@ -1,314 +1,241 @@
-import Link from "next/link";
-import {
-  TrendingUp,
-  BarChart3,
-  LineChart,
-  Activity,
-} from "lucide-react";
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+import { healthDataQueries } from "@/services/healthDataService";
+import { Activity, ArrowUp, ArrowDown, Minus } from "lucide-react";
 
 export default function TrendsPage() {
+  // Fetch trend analysis data
+  const { data: trendData, isLoading } = useQuery(
+    healthDataQueries.trendAnalysis()
+  );
+
+  const { data: childMortalityTrends } = useQuery(
+    healthDataQueries.childMortalityTrends()
+  );
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <main className="container mx-auto px-4 py-8">
+          <div className="animate-pulse space-y-6">
+            <div className="h-8 bg-gray-200 rounded w-1/3"></div>
+            <div className="h-32 bg-gray-200 rounded"></div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="h-48 bg-gray-200 rounded"></div>
+              ))}
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            28-Year Health Trends Analysis
+            Rwanda Health Trends Analysis
           </h1>
           <p className="text-gray-600">
-            Interactive visualization of Rwanda's health indicators from 1992 to
-            2020
+            Interactive visualization of Rwanda's health indicators over
+            multiple survey periods
           </p>
         </div>
 
-        {/* Filter Section */}
-        <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">
-            Filter & Search
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Health Category
-              </label>
-              <select className="w-full p-3 border text-gray-700 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <option>All Categories</option>
-                <option>Maternal Health</option>
-                <option>Child Health</option>
-                <option>Infectious Diseases</option>
-                <option>Nutrition</option>
-                <option>Vaccination</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Time Period
-              </label>
-              <select className="w-full p-3 border text-gray-700 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <option>All Years (1992-2020)</option>
-                <option>Last 10 Years (2010-2020)</option>
-                <option>Last 5 Years (2015-2020)</option>
-                <option>Custom Range</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Province
-              </label>
-              <select className="w-full p-3 border text-gray-700 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <option>National Average</option>
-                <option>Kigali City</option>
-                <option>Eastern Province</option>
-                <option>Western Province</option>
-                <option>Northern Province</option>
-                <option>Southern Province</option>
-              </select>
-            </div>
+        {/* Real Trends Data */}
+        {trendData && trendData.length > 0 && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+            {trendData.map((trend: any, index: number) => (
+              <div key={index} className="bg-white rounded-lg shadow p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {trend.indicator}
+                  </h3>
+                  <Activity className="h-6 w-6 text-blue-600" />
+                </div>
+
+                {trend.dataPoints && trend.dataPoints.length > 0 && (
+                  <div className="space-y-3">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Latest Value:</span>
+                      <span className="font-medium">
+                        {trend.dataPoints[trend.dataPoints.length - 1].value}{" "}
+                        {trend.dataPoints[0].unit || ""}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Trend:</span>
+                      <span
+                        className={`font-medium flex items-center ${
+                          trend.trend === "improving"
+                            ? "text-green-600"
+                            : trend.trend === "declining"
+                            ? "text-red-600"
+                            : "text-yellow-600"
+                        }`}
+                      >
+                        {trend.trend === "improving" ? (
+                          <ArrowUp className="h-4 w-4 mr-1" />
+                        ) : trend.trend === "declining" ? (
+                          <ArrowDown className="h-4 w-4 mr-1" />
+                        ) : (
+                          <Minus className="h-4 w-4 mr-1" />
+                        )}
+                        {trend.trend}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Period:</span>
+                      <span className="font-medium">
+                        {trend.dataPoints[0].year}-
+                        {trend.dataPoints[trend.dataPoints.length - 1].year}
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
-        </div>
+        )}
 
-        {/* Trend Categories */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* Maternal Health Trends */}
-          <TrendSection
-            title="Maternal Health Trends"
-            description="Maternal mortality and health service improvements"
-            icon={<Activity className="h-6 w-6 text-pink-600" />}
-            color="pink"
-          >
-            <div className="space-y-4">
-              <TrendIndicator
-                name="Maternal Mortality Rate"
-                trend="improving"
-                change="-65%"
-                current="248 per 100,000"
-                period="1992-2020"
-              />
-              <TrendIndicator
-                name="Skilled Birth Attendance"
-                trend="improving"
-                change="+80%"
-                current="91% of births"
-                period="1992-2020"
-              />
+        {/* Child Mortality Special Section */}
+        {childMortalityTrends && childMortalityTrends.length > 0 && (
+          <div className="bg-white rounded-lg shadow p-6 mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              Child Mortality Trends (Key Achievement)
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {childMortalityTrends.map((data: any, index: number) => (
+                <div key={index} className="text-center">
+                  <div className="text-2xl font-bold text-blue-600">
+                    {data.rate}
+                  </div>
+                  <div className="text-sm text-gray-600">{data.year}</div>
+                  <div className="text-xs text-gray-500">per 1,000 births</div>
+                </div>
+              ))}
             </div>
-          </TrendSection>
 
-          {/* Child Health Trends */}
-          <TrendSection
-            title="Child Health & Nutrition"
-            description="Child mortality and nutrition indicators"
-            icon={<Activity className="h-6 w-6 text-blue-600" />}
-            color="blue"
-          >
-            <div className="space-y-4">
-              <TrendIndicator
-                name="Child Mortality Rate"
-                trend="improving"
-                change="-70%"
-                current="29.1 per 1,000"
-                period="1992-2020"
-              />
-              <TrendIndicator
-                name="Stunting Prevalence"
-                trend="improving"
-                change="-45%"
-                current="33.1% of children"
-                period="2000-2020"
-              />
+            {childMortalityTrends.length >= 2 && (
+              <div className="mt-4 p-4 bg-green-50 rounded-lg">
+                <div className="flex items-center text-green-800">
+                  <ArrowDown className="h-5 w-5 mr-2" />
+                  <span className="font-medium">
+                    {Math.round(
+                      ((childMortalityTrends[0].rate -
+                        childMortalityTrends[childMortalityTrends.length - 1]
+                          .rate) /
+                        childMortalityTrends[0].rate) *
+                        100
+                    )}
+                    % reduction over{" "}
+                    {childMortalityTrends[childMortalityTrends.length - 1]
+                      .year - childMortalityTrends[0].year}{" "}
+                    years
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Default Trends if no data */}
+        {(!trendData || trendData.length === 0) && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+            <div className="bg-white rounded-lg shadow p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Maternal Health
+                </h3>
+                <Activity className="h-6 w-6 text-pink-600" />
+              </div>
+              <div className="space-y-2">
+                <div className="text-sm text-gray-600">
+                  Significant improvements in maternal mortality rates
+                </div>
+                <div className="flex items-center text-green-600">
+                  <ArrowDown className="h-4 w-4 mr-1" />
+                  <span className="text-sm font-medium">
+                    65% reduction since 1992
+                  </span>
+                </div>
+              </div>
             </div>
-          </TrendSection>
 
-          {/* Vaccination Trends */}
-          <TrendSection
-            title="Vaccination Coverage"
-            description="Immunization program achievements"
-            icon={<Activity className="h-6 w-6 text-green-600" />}
-            color="green"
-          >
-            <div className="space-y-4">
-              <TrendIndicator
-                name="DPT3 Coverage"
-                trend="improving"
-                change="+70%"
-                current="98% coverage"
-                period="1992-2020"
-              />
-              <TrendIndicator
-                name="Measles Vaccination"
-                trend="improving"
-                change="+65%"
-                current="95% coverage"
-                period="1992-2020"
-              />
+            <div className="bg-white rounded-lg shadow p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Child Health
+                </h3>
+                <Activity className="h-6 w-6 text-blue-600" />
+              </div>
+              <div className="space-y-2">
+                <div className="text-sm text-gray-600">
+                  Dramatic reduction in child mortality
+                </div>
+                <div className="flex items-center text-green-600">
+                  <ArrowDown className="h-4 w-4 mr-1" />
+                  <span className="text-sm font-medium">
+                    79% reduction since 1992
+                  </span>
+                </div>
+              </div>
             </div>
-          </TrendSection>
 
-          {/* Disease Prevention */}
-          <TrendSection
-            title="Disease Prevention"
-            description="Infectious disease control and prevention"
-            icon={<Activity className="h-6 w-6 text-purple-600" />}
-            color="purple"
-          >
-            <div className="space-y-4">
-              <TrendIndicator
-                name="HIV Prevalence"
-                trend="stable"
-                change="-1%"
-                current="2.9% adult prevalence"
-                period="2010-2020"
-              />
-              <TrendIndicator
-                name="Malaria Incidence"
-                trend="improving"
-                change="-30%"
-                current="Reduced significantly"
-                period="2010-2020"
-              />
-            </div>
-          </TrendSection>
-        </div>
-
-        {/* Chart Placeholder */}
-        <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">
-            Interactive Trend Chart
-          </h2>
-          <div className="h-96 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg flex items-center justify-center">
-            <div className="text-center">
-              <LineChart className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600 font-medium text-lg">
-                Interactive Chart Component
-              </p>
-              <p className="text-gray-500">
-                Will display selectable health indicators with 28-year trend
-                lines
-              </p>
-              <div className="mt-4 space-x-4">
-                <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
-                  Multi-year comparison
-                </span>
-                <span className="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
-                  Province filtering
-                </span>
-                <span className="inline-block px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">
-                  Export capabilities
-                </span>
+            <div className="bg-white rounded-lg shadow p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Vaccination
+                </h3>
+                <Activity className="h-6 w-6 text-green-600" />
+              </div>
+              <div className="space-y-2">
+                <div className="text-sm text-gray-600">
+                  High vaccination coverage achieved
+                </div>
+                <div className="flex items-center text-green-600">
+                  <ArrowUp className="h-4 w-4 mr-1" />
+                  <span className="text-sm font-medium">
+                    95%+ coverage maintained
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
 
-        {/* Key Insights */}
-        <div className="bg-gradient-to-r from-blue-600 to-green-600 rounded-lg p-8 text-white">
-          <h2 className="text-2xl font-bold mb-6">Key Trend Insights</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <InsightCard
-              title="Remarkable Progress"
-              description="Rwanda achieved some of the fastest health improvements globally between 1992-2020"
-            />
-            <InsightCard
-              title="Policy Impact"
-              description="Major health policies show clear correlation with improved health outcomes"
-            />
-            <InsightCard
-              title="Universal Coverage"
-              description="Health insurance and service coverage reached 95%+ of the population"
-            />
+        {/* Insights Section */}
+        <div className="bg-blue-600 rounded-lg p-8 text-white">
+          <h2 className="text-2xl font-bold mb-6">Key Health Insights</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+              <h3 className="font-semibold mb-2">Rwanda's Success Story</h3>
+              <p className="text-blue-100 text-sm">
+                Rwanda has achieved remarkable progress in health outcomes, with
+                significant improvements across all key indicators over the past
+                28 years.
+              </p>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+              <h3 className="font-semibold mb-2">Data-Driven Policy</h3>
+              <p className="text-blue-100 text-sm">
+                Comprehensive health surveys have enabled evidence-based policy
+                making, leading to targeted interventions and improved outcomes.
+              </p>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+              <h3 className="font-semibold mb-2">Future Outlook</h3>
+              <p className="text-blue-100 text-sm">
+                Continued monitoring and analysis will support Rwanda's journey
+                toward achieving universal health coverage and SDG targets.
+              </p>
+            </div>
           </div>
         </div>
       </main>
-    </div>
-  );
-}
-
-function TrendSection({
-  title,
-  description,
-  icon,
-  color,
-  children,
-}: {
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  color: "pink" | "blue" | "green" | "purple";
-  children: React.ReactNode;
-}) {
-  const colorClasses = {
-    pink: "bg-pink-50 border-pink-200",
-    blue: "bg-blue-50 border-blue-200",
-    green: "bg-green-50 border-green-200",
-    purple: "bg-purple-50 border-purple-200",
-  };
-
-  return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <div className={`${colorClasses[color]} rounded-lg p-4 mb-4`}>
-        <div className="flex items-center space-x-3 mb-2">
-          {icon}
-          <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-        </div>
-        <p className="text-gray-600 text-sm">{description}</p>
-      </div>
-      {children}
-    </div>
-  );
-}
-
-function TrendIndicator({
-  name,
-  trend,
-  change,
-  current,
-  period,
-}: {
-  name: string;
-  trend: "improving" | "stable" | "declining";
-  change: string;
-  current: string;
-  period: string;
-}) {
-  const trendColors = {
-    improving: "text-green-600 bg-green-100",
-    stable: "text-yellow-600 bg-yellow-100",
-    declining: "text-red-600 bg-red-100",
-  };
-
-  const trendIcons = {
-    improving: "↗",
-    stable: "→",
-    declining: "↘",
-  };
-
-  return (
-    <div className="border border-gray-200 rounded-lg p-4">
-      <div className="flex items-center justify-between mb-2">
-        <h4 className="font-medium text-gray-900">{name}</h4>
-        <span
-          className={`px-2 py-1 rounded-full text-xs font-medium ${trendColors[trend]}`}
-        >
-          {trendIcons[trend]} {change}
-        </span>
-      </div>
-      <p className="text-gray-600 text-sm mb-1">{current}</p>
-      <p className="text-gray-500 text-xs">{period}</p>
-    </div>
-  );
-}
-
-function InsightCard({
-  title,
-  description,
-}: {
-  title: string;
-  description: string;
-}) {
-  return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-      <h3 className="font-semibold text-white mb-2">{title}</h3>
-      <p className="text-blue-100 text-sm">{description}</p>
     </div>
   );
 }

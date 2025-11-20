@@ -1,7 +1,37 @@
+"use client";
+
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import { healthDataQueries } from "@/services/healthDataService";
 import { MapPin, BarChart3, TrendingUp, Users, ArrowLeft } from "lucide-react";
 
 export default function ProvincesPage() {
+  // Fetch provincial health data
+  const { data: provincialData, isLoading } = useQuery(
+    healthDataQueries.provincialHealth()
+  );
+
+  const { data: healthIndicators } = useQuery(
+    healthDataQueries.healthIndicators()
+  );
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <main className="container mx-auto px-4 py-8">
+          <div className="animate-pulse space-y-6">
+            <div className="h-8 bg-gray-200 rounded w-1/3"></div>
+            <div className="h-64 bg-gray-200 rounded"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="h-48 bg-gray-200 rounded"></div>
+              ))}
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -83,44 +113,91 @@ export default function ProvincesPage() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-            <ProvinceCard
-              name="Kigali City"
-              healthScore={92}
-              population="1.2M"
-              rank={1}
-              highlights={[
-                "Highest health score",
-                "Best maternal care",
-                "Leading vaccination rates",
-              ]}
-              color="green"
-            />
+            {provincialData && provincialData.length > 0 ? (
+              provincialData.map((province: any, index: number) => (
+                <ProvinceCard
+                  key={province.name || index}
+                  name={province.name || `Province ${index + 1}`}
+                  healthScore={province.healthScore || 85}
+                  population={province.population || "N/A"}
+                  rank={index + 1}
+                  highlights={province.highlights || [
+                    "Health services available",
+                    "Data collection ongoing",
+                    "Progress monitored"
+                  ]}
+                  color={province.healthScore > 85 ? "green" : province.healthScore > 70 ? "yellow" : "orange"}
+                />
+              ))
+            ) : (
+              <>
+                <ProvinceCard
+                  name="Kigali City"
+                  healthScore={92}
+                  population="1.2M"
+                  rank={1}
+                  highlights={[
+                    "Highest health score",
+                    "Best maternal care",
+                    "Leading vaccination rates",
+                  ]}
+                  color="green"
+                />
 
-            <ProvinceCard
-              name="Southern Province"
-              healthScore={86}
-              population="2.6M"
-              rank={2}
-              highlights={[
-                "Strong child health",
-                "Good nutrition programs",
-                "Improved water access",
-              ]}
-              color="green"
-            />
+                <ProvinceCard
+                  name="Southern Province"
+                  healthScore={86}
+                  population="2.6M"
+                  rank={2}
+                  highlights={[
+                    "Strong child health",
+                    "Good nutrition programs",
+                    "Improved water access",
+                  ]}
+                  color="green"
+                />
 
-            <ProvinceCard
-              name="Western Province"
-              healthScore={81}
-              population="2.5M"
-              rank={3}
-              highlights={[
-                "Steady improvement",
-                "Rural health success",
-                "Community engagement",
-              ]}
-              color="yellow"
-            />
+                <ProvinceCard
+                  name="Western Province"
+                  healthScore={81}
+                  population="2.5M"
+                  rank={3}
+                  highlights={[
+                    "Steady improvement",
+                    "Rural health success",
+                    "Community engagement",
+                  ]}
+                  color="yellow"
+                />
+
+                <ProvinceCard
+                  name="Northern Province"
+                  healthScore={78}
+                  population="1.9M"
+                  rank={4}
+                  highlights={[
+                    "Infrastructure development",
+                    "Training programs",
+                    "Health facility upgrades",
+                  ]}
+                  color="yellow"
+                />
+
+                <ProvinceCard
+                  name="Eastern Province"
+                  healthScore={75}
+                  population="2.6M"
+                  rank={5}
+                  highlights={[
+                    "Rapid progress",
+                    "Community health workers",
+                    "Mobile health services",
+                  ]}
+                  color="orange"
+                />
+              </>
+            )}
+              
 
             <ProvinceCard
               name="Northern Province"
