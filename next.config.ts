@@ -4,7 +4,7 @@ const nextConfig = {
   reactStrictMode: true,
 
   // Using function to make TypeScript happy
-  webpack: (config) => {
+  webpack: (config: any) => {
     return config;
   },
 

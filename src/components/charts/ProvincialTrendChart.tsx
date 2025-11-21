@@ -105,19 +105,35 @@ export const ProvincialTrendChart: React.FC<ProvincialTrendChartProps> = ({
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-3 border border-gray-200 rounded-lg shadow">
-          <p className="text-sm font-medium text-gray-900 mb-1">{`Year: ${label}`}</p>
-          {payload.map((entry: any, index: number) => (
-            <p
-              key={`item-${index}`}
-              className="text-xs"
-              style={{ color: entry.color }}
-            >
-              {`${entry.name}: ${
-                entry.value !== undefined ? entry.value.toFixed(1) : "N/A"
-              } ${indicator === "childMortality" ? "per 1,000" : "%"}`}
-            </p>
-          ))}
+        <div className="bg-white p-4 border border-gray-200 rounded-xl shadow-lg backdrop-blur-sm">
+          <p className="font-semibold text-gray-900 mb-3 text-sm border-b border-gray-100 pb-2">
+            Year: {label}
+          </p>
+          <div className="space-y-2 max-h-32 overflow-y-auto">
+            {payload.map((entry: any, index: number) => (
+              <div
+                key={`item-${index}`}
+                className="flex items-center justify-between space-x-3"
+              >
+                <div className="flex items-center space-x-2">
+                  <div
+                    className="w-3 h-3 rounded-full"
+                    style={{ backgroundColor: entry.color }}
+                  ></div>
+                  <span className="text-sm text-gray-700 font-medium">
+                    {entry.name}
+                  </span>
+                </div>
+                <span
+                  className="text-sm font-bold"
+                  style={{ color: entry.color }}
+                >
+                  {entry.value !== undefined ? entry.value.toFixed(1) : "N/A"}
+                  {indicator === "childMortality" ? " per 1,000" : "%"}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       );
     }
@@ -128,20 +144,48 @@ export const ProvincialTrendChart: React.FC<ProvincialTrendChartProps> = ({
     <ResponsiveContainer width="100%" height="100%">
       <LineChart
         data={chartData}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+        margin={{ top: 30, right: 60, left: 60, bottom: 80 }}
       >
-        <CartesianGrid strokeDasharray="3 3" stroke="#eaeaea" />
-        <XAxis dataKey="year" />
+        <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" opacity={0.8} />
+        <XAxis
+          dataKey="year"
+          tick={{ fontSize: 12, fill: "#64748b" }}
+          axisLine={{ stroke: "#cbd5e1", strokeWidth: 1 }}
+          tickLine={{ stroke: "#cbd5e1" }}
+          label={{
+            value: "Year",
+            position: "insideBottom",
+            offset: -15,
+            style: {
+              textAnchor: "middle",
+              fill: "#475569",
+              fontSize: "14px",
+              fontWeight: "500",
+            },
+          }}
+        />
         <YAxis
+          tick={{ fontSize: 12, fill: "#64748b" }}
+          axisLine={{ stroke: "#cbd5e1", strokeWidth: 1 }}
+          tickLine={{ stroke: "#cbd5e1" }}
           label={{
             value: getIndicatorLabel(),
             angle: -90,
             position: "insideLeft",
-            style: { textAnchor: "middle" },
+            style: {
+              textAnchor: "middle",
+              fill: "#475569",
+              fontSize: "14px",
+              fontWeight: "500",
+            },
           }}
         />
         <Tooltip content={<CustomTooltip />} />
         <Legend
+          wrapperStyle={{
+            paddingTop: "20px",
+            fontSize: "13px",
+          }}
           onMouseEnter={(e) => setHoverProvince(e.dataKey as string)}
           onMouseLeave={() => setHoverProvince(null)}
         />
@@ -157,15 +201,37 @@ export const ProvincialTrendChart: React.FC<ProvincialTrendChartProps> = ({
             }
             strokeWidth={
               selectedProvince === province
-                ? 3
+                ? 4
                 : hoverProvince === province
-                ? 2
-                : 1.5
+                ? 3
+                : 2
             }
-            dot={{ r: selectedProvince === province ? 5 : 3 }}
-            activeDot={{ r: 6 }}
+            dot={{
+              fill:
+                provinceColors[province as keyof typeof provinceColors] ||
+                "#8884d8",
+              strokeWidth: 2,
+              r: selectedProvince === province ? 6 : 4,
+              stroke: "#fff",
+            }}
+            activeDot={{
+              r: 8,
+              fill:
+                provinceColors[province as keyof typeof provinceColors] ||
+                "#8884d8",
+              stroke: "#fff",
+              strokeWidth: 3,
+            }}
             opacity={
-              selectedProvince && selectedProvince !== province ? 0.3 : 1
+              selectedProvince
+                ? selectedProvince === province
+                  ? 1
+                  : 0.3
+                : hoverProvince
+                ? hoverProvince === province
+                  ? 1
+                  : 0.5
+                : 1
             }
           />
         ))}

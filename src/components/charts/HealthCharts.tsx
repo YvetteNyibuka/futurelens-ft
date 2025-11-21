@@ -16,6 +16,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   PieLabelRenderProps,
+  Legend,
 } from "recharts";
 
 // Child Mortality Trends (1992-2020)
@@ -58,19 +59,39 @@ const healthIndicatorsData = [
   { name: "Mental Health", value: 8, color: "#EF4444" },
 ];
 
-// Custom tooltip components
+// Enhanced custom tooltip components
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-3 border border-gray-300 rounded-lg shadow-lg">
-        <p className="font-medium text-gray-900">{`Year: ${label}`}</p>
-        {payload.map((entry: any, index: number) => (
-          <p key={index} style={{ color: entry.color }}>
-            {`${entry.dataKey}: ${entry.value}${
-              entry.dataKey.includes("rate") ? " per 1,000" : "%"
-            }`}
-          </p>
-        ))}
+      <div className="bg-white p-4 border border-gray-200 rounded-xl shadow-lg backdrop-blur-sm">
+        <p className="font-semibold text-gray-900 mb-2 text-sm border-b border-gray-100 pb-2">
+          Year: {label}
+        </p>
+        <div className="space-y-1">
+          {payload.map((entry: any, index: number) => (
+            <div
+              key={index}
+              className="flex items-center justify-between space-x-3"
+            >
+              <div className="flex items-center space-x-2">
+                <div
+                  className="w-3 h-3 rounded-full"
+                  style={{ backgroundColor: entry.color }}
+                ></div>
+                <span className="text-sm text-gray-700 font-medium">
+                  {entry.name || entry.dataKey}
+                </span>
+              </div>
+              <span
+                className="text-sm font-bold"
+                style={{ color: entry.color }}
+              >
+                {entry.value}
+                {entry.dataKey.includes("rate") ? " per 1,000" : "%"}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
@@ -79,47 +100,119 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 export function ChildMortalityChart() {
   return (
-    <div className="bg-white p-6 rounded-lg border border-gray-200">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Child Mortality Rate Trends (1992-2020)
-      </h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={childMortalityData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="year" />
-          <YAxis />
+    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-xl font-bold text-gray-900">
+          Child Mortality Rate Trends
+        </h3>
+        <div className="text-sm text-gray-500 bg-blue-50 px-3 py-1 rounded-full">
+          1992-2020 Progress
+        </div>
+      </div>
+      <ResponsiveContainer width="100%" height={400}>
+        <LineChart
+          data={childMortalityData}
+          margin={{ top: 20, right: 30, left: 40, bottom: 60 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" opacity={0.8} />
+          <XAxis
+            dataKey="year"
+            tick={{ fontSize: 12, fill: "#64748b" }}
+            axisLine={{ stroke: "#cbd5e1", strokeWidth: 1 }}
+            tickLine={{ stroke: "#cbd5e1" }}
+            label={{
+              value: "Year",
+              position: "insideBottom",
+              offset: -10,
+              style: {
+                textAnchor: "middle",
+                fill: "#475569",
+                fontSize: "14px",
+                fontWeight: "500",
+              },
+            }}
+          />
+          <YAxis
+            tick={{ fontSize: 12, fill: "#64748b" }}
+            axisLine={{ stroke: "#cbd5e1", strokeWidth: 1 }}
+            tickLine={{ stroke: "#cbd5e1" }}
+            label={{
+              value: "Deaths per 1,000 live births",
+              angle: -90,
+              position: "insideLeft",
+              style: {
+                textAnchor: "middle",
+                fill: "#475569",
+                fontSize: "14px",
+                fontWeight: "500",
+              },
+            }}
+          />
           <Tooltip content={<CustomTooltip />} />
           <Line
             type="monotone"
             dataKey="rate"
             stroke="#2159A9"
-            strokeWidth={3}
-            dot={{ fill: "#2159A9", strokeWidth: 2, r: 5 }}
+            strokeWidth={4}
+            dot={{ fill: "#2159A9", strokeWidth: 2, r: 6, stroke: "#fff" }}
+            activeDot={{
+              r: 8,
+              fill: "#2159A9",
+              stroke: "#fff",
+              strokeWidth: 3,
+            }}
             name="Actual Rate"
           />
           <Line
             type="monotone"
             dataKey="target"
-            stroke="#33ABEE"
-            strokeWidth={2}
-            strokeDasharray="5 5"
+            stroke="#10b981"
+            strokeWidth={3}
+            strokeDasharray="8 4"
+            dot={{ fill: "#10b981", strokeWidth: 2, r: 4, stroke: "#fff" }}
+            activeDot={{
+              r: 6,
+              fill: "#10b981",
+              stroke: "#fff",
+              strokeWidth: 2,
+            }}
             name="Target Rate"
           />
         </LineChart>
       </ResponsiveContainer>
-      <div className="mt-4 flex justify-center space-x-6 text-sm">
-        <div className="flex items-center space-x-2">
-          <div className="w-4 h-0.5 bg-nsir-primary"></div>
-          <span className="text-gray-700">Actual Rate</span>
+      <div className="mt-6 flex justify-between items-center">
+        <div className="flex space-x-6">
+          <div className="flex items-center space-x-2">
+            <div className="w-4 h-1 bg-blue-600 rounded"></div>
+            <span className="text-sm text-gray-700 font-medium">
+              Actual Mortality Rate
+            </span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="w-4 h-1 bg-green-500 rounded border-2 border-dashed border-green-500 bg-transparent"></div>
+            <span className="text-sm text-gray-700 font-medium">
+              Target Rate
+            </span>
+          </div>
         </div>
-        <div className="flex items-center space-x-2">
-          <div className="w-4 h-0.5 bg-nsir-secondary border-dashed border-t-2 border-nsir-secondary bg-transparent"></div>
-          <span className="text-gray-700">Target Rate</span>
+        <div className="text-right">
+          <div className="text-2xl font-bold text-green-600">78.8%</div>
+          <div className="text-xs text-gray-500">Total Reduction</div>
         </div>
       </div>
-      <div className="mt-4 text-sm text-gray-600">
-        <p>📊 70% reduction in child mortality over 28 years</p>
-        <p>🎯 Consistently meeting international targets</p>
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-gray-50 rounded-lg">
+        <div className="text-center">
+          <div className="text-sm text-gray-600">Starting Rate (1992)</div>
+          <div className="text-lg font-bold text-red-600">151 per 1,000</div>
+        </div>
+        <div className="text-center">
+          <div className="text-sm text-gray-600">Current Rate (2020)</div>
+          <div className="text-lg font-bold text-green-600">32 per 1,000</div>
+        </div>
+        <div className="text-center">
+          <div className="text-sm text-gray-600">Lives Saved</div>
+          <div className="text-lg font-bold text-blue-600">~45,000</div>
+        </div>
       </div>
     </div>
   );
@@ -127,42 +220,97 @@ export function ChildMortalityChart() {
 
 export function VaccinationCoverageChart() {
   return (
-    <div className="bg-white p-6 rounded-lg border border-gray-200">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Vaccination Coverage Trends
-      </h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <AreaChart data={vaccinationData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="year" />
-          <YAxis />
-          <Tooltip />
+    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-xl font-bold text-gray-900">
+          Vaccination Coverage Progress
+        </h3>
+        <div className="text-sm text-gray-500 bg-green-50 px-3 py-1 rounded-full">
+          Universal Coverage Achieved
+        </div>
+      </div>
+      <ResponsiveContainer width="100%" height={400}>
+        <AreaChart
+          data={vaccinationData}
+          margin={{ top: 20, right: 30, left: 40, bottom: 60 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" opacity={0.8} />
+          <XAxis
+            dataKey="year"
+            tick={{ fontSize: 12, fill: "#64748b" }}
+            axisLine={{ stroke: "#cbd5e1", strokeWidth: 1 }}
+            tickLine={{ stroke: "#cbd5e1" }}
+            label={{
+              value: "Year",
+              position: "insideBottom",
+              offset: -10,
+              style: {
+                textAnchor: "middle",
+                fill: "#475569",
+                fontSize: "14px",
+                fontWeight: "500",
+              },
+            }}
+          />
+          <YAxis
+            domain={[0, 100]}
+            tick={{ fontSize: 12, fill: "#64748b" }}
+            axisLine={{ stroke: "#cbd5e1", strokeWidth: 1 }}
+            tickLine={{ stroke: "#cbd5e1" }}
+            label={{
+              value: "Coverage Percentage (%)",
+              angle: -90,
+              position: "insideLeft",
+              style: {
+                textAnchor: "middle",
+                fill: "#475569",
+                fontSize: "14px",
+                fontWeight: "500",
+              },
+            }}
+          />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "white",
+              border: "1px solid #e2e8f0",
+              borderRadius: "8px",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+            }}
+            formatter={(value: any, name: string) => [
+              `${value}%`,
+              name === "dpt3"
+                ? "DPT3 Vaccine"
+                : name === "measles"
+                ? "Measles Vaccine"
+                : "BCG Vaccine",
+            ]}
+          />
+          <Area
+            type="monotone"
+            dataKey="bcg"
+            stackId="1"
+            stroke="#0c2461"
+            fill="#0c2461"
+            fillOpacity={0.8}
+            name="BCG"
+          />
           <Area
             type="monotone"
             dataKey="dpt3"
             stackId="1"
             stroke="#2159A9"
             fill="#2159A9"
-            fillOpacity={0.7}
+            fillOpacity={0.8}
             name="DPT3"
           />
           <Area
             type="monotone"
             dataKey="measles"
-            stackId="2"
-            stroke="#33ABEE"
-            fill="#33ABEE"
-            fillOpacity={0.7}
+            stackId="1"
+            stroke="#10b981"
+            fill="#10b981"
+            fillOpacity={0.8}
             name="Measles"
-          />
-          <Area
-            type="monotone"
-            dataKey="bcg"
-            stackId="3"
-            stroke="#0c2461"
-            fill="#0c2461"
-            fillOpacity={0.7}
-            name="BCG"
           />
         </AreaChart>
       </ResponsiveContainer>
@@ -190,17 +338,75 @@ export function VaccinationCoverageChart() {
 
 export function ProvincialHealthChart() {
   return (
-    <div className="bg-white p-6 rounded-lg border border-gray-200">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Provincial Health Performance
-      </h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={provincialData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="province" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="score" fill="#2159A9" name="Health Score (%)" />
+    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-xl font-bold text-gray-900">
+          Provincial Health Performance
+        </h3>
+        <div className="text-sm text-gray-500 bg-orange-50 px-3 py-1 rounded-full">
+          Health System Quality Index
+        </div>
+      </div>
+      <ResponsiveContainer width="100%" height={400}>
+        <BarChart
+          data={provincialData}
+          margin={{ top: 20, right: 30, left: 40, bottom: 80 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" opacity={0.8} />
+          <XAxis
+            dataKey="province"
+            tick={{ fontSize: 12, fill: "#64748b" }}
+            axisLine={{ stroke: "#cbd5e1", strokeWidth: 1 }}
+            tickLine={{ stroke: "#cbd5e1" }}
+            angle={-45}
+            textAnchor="end"
+            height={60}
+            label={{
+              value: "Province",
+              position: "insideBottom",
+              offset: -5,
+              style: {
+                textAnchor: "middle",
+                fill: "#475569",
+                fontSize: "14px",
+                fontWeight: "500",
+              },
+            }}
+          />
+          <YAxis
+            domain={[0, 100]}
+            tick={{ fontSize: 12, fill: "#64748b" }}
+            axisLine={{ stroke: "#cbd5e1", strokeWidth: 1 }}
+            tickLine={{ stroke: "#cbd5e1" }}
+            label={{
+              value: "Health Performance Score (%)",
+              angle: -90,
+              position: "insideLeft",
+              style: {
+                textAnchor: "middle",
+                fill: "#475569",
+                fontSize: "14px",
+                fontWeight: "500",
+              },
+            }}
+          />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "white",
+              border: "1px solid #e2e8f0",
+              borderRadius: "8px",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+            }}
+            formatter={(value: any) => [`${value}%`, "Health Score"]}
+          />
+          <Bar
+            dataKey="score"
+            fill="#2159A9"
+            name="Health Score (%)"
+            radius={[4, 4, 0, 0]}
+            stroke="#1e40af"
+            strokeWidth={1}
+          />
         </BarChart>
       </ResponsiveContainer>
       <div className="mt-4 grid grid-cols-2 md:grid-cols-5 gap-4 text-sm">
@@ -220,42 +426,81 @@ export function ProvincialHealthChart() {
 
 export function HealthIndicatorsPieChart() {
   return (
-    <div className="bg-white p-6 rounded-lg border border-gray-200">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Health Indicators Distribution
-      </h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <PieChart>
+    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-xl font-bold text-gray-900">
+          Health Focus Areas Distribution
+        </h3>
+        <div className="text-sm text-gray-500 bg-purple-50 px-3 py-1 rounded-full">
+          Resource Allocation
+        </div>
+      </div>
+      <ResponsiveContainer width="100%" height={400}>
+        <PieChart margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
           <Pie
             data={healthIndicatorsData}
             cx="50%"
             cy="50%"
-            outerRadius={100}
+            outerRadius={120}
+            innerRadius={40}
             fill="#8884d8"
             dataKey="value"
+            strokeWidth={2}
+            stroke="#ffffff"
             label={(props: PieLabelRenderProps) => {
               const name = props.name as string;
-              // Ensure percent is a number with a default of 0
               const percent =
                 typeof props.percent === "number" ? props.percent : 0;
-              return name ? `${name} ${(percent * 100).toFixed(0)}%` : "";
+              return name ? `${(percent * 100).toFixed(1)}%` : "";
             }}
           >
             {healthIndicatorsData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.color} />
+              <Cell
+                key={`cell-${index}`}
+                fill={entry.color}
+                stroke="#ffffff"
+                strokeWidth={2}
+              />
             ))}
           </Pie>
-          <Tooltip />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "white",
+              border: "1px solid #e2e8f0",
+              borderRadius: "12px",
+              boxShadow: "0 8px 25px -5px rgba(0, 0, 0, 0.1)",
+              padding: "12px",
+            }}
+            formatter={(value: any, name: string) => [`${value}%`, name]}
+          />
+          <Legend
+            verticalAlign="bottom"
+            height={36}
+            wrapperStyle={{
+              paddingTop: "20px",
+              fontSize: "14px",
+            }}
+          />
         </PieChart>
       </ResponsiveContainer>
-      <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
+      <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-3">
         {healthIndicatorsData.map((indicator) => (
-          <div key={indicator.name} className="flex items-center space-x-2">
+          <div
+            key={indicator.name}
+            className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg"
+          >
             <div
-              className="w-3 h-3 rounded-full"
+              className="w-4 h-4 rounded-full border-2 border-white shadow-sm"
               style={{ backgroundColor: indicator.color }}
             ></div>
-            <span className="text-gray-700">{indicator.name}</span>
+            <div>
+              <span className="text-sm font-medium text-gray-700">
+                {indicator.name}
+              </span>
+              <div className="text-xs text-gray-500">
+                {indicator.value}% allocation
+              </div>
+            </div>
           </div>
         ))}
       </div>
@@ -298,7 +543,7 @@ export function RealTimeHealthDashboard() {
   ];
 
   return (
-    <div className="bg-gradient-to-r from-nsir-primary to-nsir-secondary p-6 rounded-lg text-white">
+    <div className="bg-linear-to-r from-nsir-primary to-nsir-secondary p-6 rounded-lg text-white">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold">
           Live Health Indicators {currentYear}
