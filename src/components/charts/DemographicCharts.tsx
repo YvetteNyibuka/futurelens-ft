@@ -10,13 +10,20 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
-  PieChart, 
+  PieChart,
   Pie,
   Cell,
 } from "recharts";
 
 // Blue color palette
-const COLORS = ["#0c2461", "#1e3799", "#4a69bd", "#6a89cc", "#82ccdd", "#b8e994"];
+const COLORS = [
+  "#0c2461",
+  "#1e3799",
+  "#4a69bd",
+  "#6a89cc",
+  "#82ccdd",
+  "#b8e994",
+];
 
 // Rwanda age distribution data (realistic estimates)
 const ageDistributionData = [
@@ -47,24 +54,70 @@ export function AgeDistributionChart() {
       <BarChart
         data={ageDistributionData}
         margin={{
-          top: 20,
+          top: 30,
           right: 30,
-          left: 20,
-          bottom: 5,
+          left: 40,
+          bottom: 60,
         }}
       >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="ageGroup" />
-        <YAxis 
-          label={{ 
-            value: "Population (%)", 
-            angle: -90, 
-            position: "insideLeft" 
-          }} 
+        <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" opacity={0.8} />
+        <XAxis
+          dataKey="ageGroup"
+          tick={{ fontSize: 12, fill: "#64748b" }}
+          axisLine={{ stroke: "#cbd5e1", strokeWidth: 1 }}
+          tickLine={{ stroke: "#cbd5e1" }}
+          label={{
+            value: "Age Groups",
+            position: "insideBottom",
+            offset: -10,
+            style: {
+              textAnchor: "middle",
+              fill: "#475569",
+              fontSize: "14px",
+              fontWeight: "500",
+            },
+          }}
         />
-        <Tooltip formatter={(value) => [`${value}%`, "Population"]} />
-        <Legend />
-        <Bar dataKey="population" name="Population %" fill="#0c2461" />
+        <YAxis
+          tick={{ fontSize: 12, fill: "#64748b" }}
+          axisLine={{ stroke: "#cbd5e1", strokeWidth: 1 }}
+          tickLine={{ stroke: "#cbd5e1" }}
+          label={{
+            value: "Population Distribution (%)",
+            angle: -90,
+            position: "insideLeft",
+            style: {
+              textAnchor: "middle",
+              fill: "#475569",
+              fontSize: "14px",
+              fontWeight: "500",
+            },
+          }}
+        />
+        <Tooltip
+          contentStyle={{
+            backgroundColor: "white",
+            border: "1px solid #e2e8f0",
+            borderRadius: "12px",
+            boxShadow: "0 8px 25px -5px rgba(0, 0, 0, 0.1)",
+            padding: "12px",
+          }}
+          formatter={(value) => [`${value}%`, "Population Share"]}
+        />
+        <Legend
+          wrapperStyle={{
+            paddingTop: "20px",
+            fontSize: "14px",
+          }}
+        />
+        <Bar
+          dataKey="population"
+          name="Population Share"
+          fill="#0c2461"
+          radius={[4, 4, 0, 0]}
+          stroke="#1e40af"
+          strokeWidth={1}
+        />
       </BarChart>
     </ResponsiveContainer>
   );
@@ -73,35 +126,71 @@ export function AgeDistributionChart() {
 // Geographic Distribution Chart Component
 export function GeographicDistributionChart() {
   const renderLabel = (entry: any) => {
-    return `${entry.name} (${entry.percentage}%)`;
+    return `${entry.name}\n${entry.percentage}%`;
+  };
+
+  const renderTooltip = (props: any) => {
+    if (props.active && props.payload && props.payload[0]) {
+      const data = props.payload[0].payload;
+      return (
+        <div className="bg-white p-4 border border-gray-200 rounded-xl shadow-lg">
+          <p className="font-semibold text-gray-900 mb-2">
+            {data.name} Province
+          </p>
+          <div className="space-y-1">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Population:</span>
+              <span className="font-bold text-blue-600">
+                {data.value.toLocaleString()}
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Share:</span>
+              <span className="font-bold text-green-600">
+                {data.percentage}%
+              </span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    return null;
   };
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <PieChart>
+      <PieChart margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
         <Pie
           data={geographicDistributionData}
           cx="50%"
           cy="50%"
-          labelLine={true}
+          labelLine={false}
           label={renderLabel}
-          outerRadius={80}
+          outerRadius={100}
+          innerRadius={30}
           fill="#8884d8"
           dataKey="value"
+          strokeWidth={2}
+          stroke="#ffffff"
         >
           {geographicDistributionData.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            <Cell
+              key={`cell-${index}`}
+              fill={COLORS[index % COLORS.length]}
+              stroke="#ffffff"
+              strokeWidth={2}
+            />
           ))}
         </Pie>
-        <Tooltip
-          formatter={(value: number, name: string, props: any) => {
-            return [
-              `${value.toLocaleString()} people`,
-              props.payload.name
-            ];
+        <Tooltip content={renderTooltip} />
+        <Legend
+          verticalAlign="bottom"
+          height={36}
+          wrapperStyle={{
+            paddingTop: "20px",
+            fontSize: "14px",
           }}
         />
-        <Legend />
       </PieChart>
     </ResponsiveContainer>
   );

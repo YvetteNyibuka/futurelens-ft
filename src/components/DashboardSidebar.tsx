@@ -1,7 +1,9 @@
 "use client";
 
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Icon } from "@iconify/react";
 import {
   BarChart3,
   Home,
@@ -9,62 +11,167 @@ import {
   Map,
   Heart,
   Activity,
-  TestTube,
   Users,
-  FileText,
-  Settings,
-  HelpCircle,
+  Menu,
+  X,
+  Database,
+  PieChart,
+  MapPin,
+  Brain,
+  Target,
+  Award,
+  Zap,
+  Globe,
+  Baby,
+  Shield,
 } from "lucide-react";
 
-export default function DashboardSidebar() {
+export default function DashboardSidebar({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
   const pathname = usePathname();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const mainNavItems = [
-    { href: "/", label: "Home", icon: Home },
-    { href: "/dashboard", label: "Dashboard", icon: BarChart3 },
-    { href: "/dashboard/analytics", label: "Analytics", icon: TrendingUp },
-    { href: "/dashboard/reports", label: "Reports", icon: FileText },
-    { href: "/dashboard/provinces", label: "Provinces", icon: Map },
-    { href: "/dashboard/demographics", label: "Demographics", icon: Users },
+    {
+      href: "/dashboard",
+      label: "Health Overview",
+      icon: BarChart3,
+      // badge: "978K",
+    },
+    // {
+    //   href: "/dashboard/analytics-rich",
+    //   label: "Interactive Analytics",
+    //   icon: Activity,
+    //   badge: "Live",
+    // },
+    {
+      href: "/dashboard/transformation-story",
+      label: "Rwanda's Miracle",
+      icon: Award,
+      // badge: "28Y",
+    },
+    {
+      href: "/dashboard/real-time-insights",
+      label: "AI Insights",
+      icon: Brain,
+      // badge: "ML",
+    },
+    {
+      href: "/dashboard/policy-impact",
+      label: "Policy Impact",
+      icon: Target,
+      // badge: "Evidence",
+    },
   ];
 
   const analyticsSections = [
-    { href: "/transformation", label: "Transformation Story", icon: Heart },
-    // { href: "/trends", label: "Health Trends", icon: TrendingUp },
-    { href: "/provinces", label: "Provincial Analysis", icon: Map },
-    { href: "/test-api", label: "API Testing", icon: TestTube },
+    {
+      href: "/dashboard/provincial-champion",
+      label: "Provincial Champions",
+      icon: MapPin,
+      // badge: "5 Provinces",
+    },
+    {
+      href: "/dashboard/health-revolution",
+      label: "Health Revolution",
+      icon: Heart,
+      // badge: "79% ↓",
+    },
+    {
+      href: "/dashboard/millennium-progress",
+      label: "Millennium Progress",
+      icon: TrendingUp,
+      // badge: "MDGs",
+    },
+    {
+      href: "/dashboard/future-predictions",
+      label: "Future Predictions",
+      icon: Zap,
+      // badge: "2030",
+    },
+    {
+      href: "/dashboard/global-leadership",
+      label: "Global Leadership",
+      icon: Globe,
+      // badge: "Africa #1",
+    },
   ];
 
-  const utilityItems = [
-    { href: "/dashboard/settings", label: "Settings", icon: Settings },
-    { href: "/dashboard/help", label: "Help", icon: HelpCircle },
+  const specialFeatures = [
+    {
+      href: "/dashboard/health-heroes",
+      label: "Health Heroes",
+      icon: Baby,
+      badge: "Child ↓79%",
+    },
+    {
+      href: "/dashboard/vaccination-success",
+      label: "Vaccination Victory",
+      icon: Shield,
+      badge: "97%",
+    },
+    { href: "/", label: "Home", icon: Home, badge: null },
   ];
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-white">
+      {/* Mobile Sidebar Overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-20 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <div className="fixed left-0 top-0 h-full w-64 bg-white shadow-lg border-r border-gray-200 overflow-y-auto">
+      <div
+        className={`fixed lg:static inset-y-0 left-0 z-50 h-full w-64 bg-white border-r border-gray-200 overflow-y-auto transform transition-all duration-300 ease-in-out ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0`}
+      >
         {/* Logo */}
-        <div className="p-4 border-b border-gray-200">
-          <Link href="/" className="flex items-center space-x-3">
-            <div className="h-8 w-8 bg-gradient-to-br from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
-              <Activity className="h-5 w-5 text-white" />
-            </div>
-            <div>
-              <span className="text-lg font-semibold text-gray-900">
-                NSIR FutureLens
-              </span>
-              <p className="text-xs text-gray-600">Health Analytics</p>
-            </div>
-          </Link>
+        <div className="p-6 border-b border-gray-100">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="flex items-center space-x-3">
+              <div
+                className="h-8 w-8 rounded-lg flex items-center justify-center"
+                style={{ backgroundColor: "#2159A9" }}
+              >
+                <Icon icon="mdi:chart-line" className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <span
+                  className="text-lg font-semibold"
+                  style={{ color: "#1f2937" }}
+                >
+                  FutureLens
+                </span>
+                <p className="text-xs font-medium" style={{ color: "#6b7280" }}>
+                  Health Analytics
+                </p>
+              </div>
+            </Link>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="lg:hidden p-2 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <X className="h-4 w-4" style={{ color: "#6b7280" }} />
+            </button>
+          </div>
         </div>
 
         {/* Navigation Sections */}
         <div className="p-4 space-y-6">
           {/* Main Navigation */}
           <div>
-            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
-              Dashboard
+            <h3
+              className="text-xs font-medium uppercase tracking-wider mb-3 px-2"
+              style={{ color: "#6b7280" }}
+            >
+              Overview
             </h3>
             <nav className="space-y-1">
               {mainNavItems.map((item) => {
@@ -75,14 +182,40 @@ export default function DashboardSidebar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isActive
-                        ? "bg-blue-100 text-blue-800 border-r-2 border-blue-600"
-                        : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"
-                    }`}
+                    onClick={() => setSidebarOpen(false)}
+                    className="group flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150"
+                    style={{
+                      backgroundColor: isActive ? "#2159A9" : "transparent",
+                      color: isActive ? "#ffffff" : "#1f2937",
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.backgroundColor = "#f0f4ff";
+                        e.currentTarget.style.color = "#2159A9";
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.backgroundColor = "transparent";
+                        e.currentTarget.style.color = "#1f2937";
+                      }
+                    }}
                   >
                     <Icon className="h-4 w-4" />
-                    <span>{item.label}</span>
+                    <span className="flex-1">{item.label}</span>
+                    {/* {item.badge && (
+                      <span
+                        className="px-2 py-0.5 text-xs rounded-md font-medium"
+                        style={{
+                          backgroundColor: isActive
+                            ? "rgba(255,255,255,0.2)"
+                            : "#f3f4f6",
+                          color: isActive ? "#ffffff" : "#6b7280",
+                        }}
+                      >
+                        {item.badge}
+                      </span>
+                    )} */}
                   </Link>
                 );
               })}
@@ -91,7 +224,10 @@ export default function DashboardSidebar() {
 
           {/* Analytics Section */}
           <div>
-            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+            <h3
+              className="text-xs font-medium uppercase tracking-wider mb-3 px-2"
+              style={{ color: "#6b7280" }}
+            >
               Analytics
             </h3>
             <nav className="space-y-1">
@@ -103,27 +239,56 @@ export default function DashboardSidebar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isActive
-                        ? "bg-green-100 text-green-800 border-r-2 border-green-600"
-                        : "text-gray-600 hover:text-green-600 hover:bg-green-50"
-                    }`}
+                    onClick={() => setSidebarOpen(false)}
+                    className="group flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150"
+                    style={{
+                      backgroundColor: isActive ? "#2159A9" : "transparent",
+                      color: isActive ? "#ffffff" : "#1f2937",
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.backgroundColor = "#f0f4ff";
+                        e.currentTarget.style.color = "#2159A9";
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.backgroundColor = "transparent";
+                        e.currentTarget.style.color = "#1f2937";
+                      }
+                    }}
                   >
                     <Icon className="h-4 w-4" />
-                    <span>{item.label}</span>
+                    <span className="flex-1">{item.label}</span>
+                    {/* {item.badge && (
+                      <span
+                        className="px-2 py-0.5 text-xs rounded-md font-medium"
+                        style={{
+                          backgroundColor: isActive
+                            ? "rgba(255,255,255,0.2)"
+                            : "#f3f4f6",
+                          color: isActive ? "#ffffff" : "#6b7280",
+                        }}
+                      >
+                        {item.badge}
+                      </span>
+                    )} */}
                   </Link>
                 );
               })}
             </nav>
           </div>
 
-          {/* Utilities */}
+          {/* Special Features */}
           <div>
-            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
-              Utilities
+            <h3
+              className="text-xs font-medium uppercase tracking-wider mb-3 px-2"
+              style={{ color: "#6b7280" }}
+            >
+              Features
             </h3>
             <nav className="space-y-1">
-              {utilityItems.map((item) => {
+              {specialFeatures.map((item) => {
                 const Icon = item.icon;
                 const isActive = pathname === item.href;
 
@@ -131,84 +296,72 @@ export default function DashboardSidebar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isActive
-                        ? "bg-gray-100 text-gray-800 border-r-2 border-gray-600"
-                        : "text-gray-600 hover:text-gray-800 hover:bg-gray-50"
-                    }`}
+                    onClick={() => setSidebarOpen(false)}
+                    className="group flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150"
+                    style={{
+                      backgroundColor: isActive ? "#2159A9" : "transparent",
+                      color: isActive ? "#ffffff" : "#1f2937",
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.backgroundColor = "#f0f4ff";
+                        e.currentTarget.style.color = "#2159A9";
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.backgroundColor = "transparent";
+                        e.currentTarget.style.color = "#1f2937";
+                      }
+                    }}
                   >
                     <Icon className="h-4 w-4" />
-                    <span>{item.label}</span>
+                    <span className="flex-1">{item.label}</span>
+                    {/* {item.badge && (
+                      <span
+                        className="px-2 py-0.5 text-xs rounded-md font-medium"
+                        style={{
+                          backgroundColor: isActive
+                            ? "rgba(255,255,255,0.2)"
+                            : "#f3f4f6",
+                          color: isActive ? "#ffffff" : "#6b7280",
+                        }}
+                      >
+                        {item.badge}
+                      </span>
+                    )} */}
                   </Link>
                 );
               })}
             </nav>
           </div>
         </div>
-
-        {/* User Info */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-white">
-          <div className="flex items-center space-x-3">
-            <div className="h-8 w-8 bg-blue-600 rounded-full flex items-center justify-center">
-              <span className="text-white text-sm font-medium">NS</span>
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">
-                NSIR Analytics
-              </p>
-              <p className="text-xs text-gray-500 truncate">Administrator</p>
-            </div>
-          </div>
-        </div>
       </div>
 
-      {/* Top Navigation Bar */}
+      {/* Main Content Area */}
       <div className="flex-1">
-        <div className="fixed top-0 right-0 left-64 z-40 bg-white border-b border-gray-200 px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-xl font-semibold text-gray-900">
-                Health Analytics Dashboard
-              </h1>
-              <p className="text-sm text-gray-600">
-                Rwanda Health Data Analysis • 1992-2020
-              </p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <button className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100">
-                <span className="sr-only">View notifications</span>
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M15 17h5l-5 5-5-5h5v-5a2 2 0 114 0v5z"
-                  />
-                </svg>
-              </button>
-              <button className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100">
-                <span className="sr-only">User menu</span>
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
-              </button>
-            </div>
+        <div className="h-screen overflow-y-auto">
+          {/* Mobile Menu Button */}
+          <div className="lg:hidden fixed top-4 left-4 z-30">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="p-2 rounded-lg bg-white border transition-all duration-200"
+              style={{
+                borderColor: "#e6e9eb",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "#f0f4ff";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "#ffffff";
+              }}
+            >
+              <Menu className="h-5 w-5" style={{ color: "#1f2937" }} />
+            </button>
           </div>
+
+          {/* Content */}
+          <div className="pt-16 lg:pt-0">{children}</div>
         </div>
       </div>
     </div>

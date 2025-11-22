@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Large data files (exclude from git and deployment)
+public/data/chunk_*.json
+public/data/Demographic*
+public/data/Enquete*
+public/data/processed-data.json
+public/data/processed-full-metadata.json
+*.csv
+# Keep only sample data
+!public/data/sample/
+!public/data/rwanda.json
+# !/public/data/rwanda.json
