@@ -189,7 +189,7 @@ export function ChildMortalityChart() {
             </span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-1 bg-green-500 rounded border-2 border-dashed border-green-500 bg-transparent"></div>
+            <div className="w-4 h-1 rounded border-2 border-dashed border-green-500 bg-transparent"></div>
             <span className="text-sm text-gray-700 font-medium">
               Target Rate
             </span>

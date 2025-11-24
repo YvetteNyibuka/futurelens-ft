@@ -13,6 +13,11 @@ export const metadata: Metadata = {
     "28-Year Rwanda Health Transformation Analysis - Official NISR DHS Data Analytics Dashboard",
   keywords:
     "Rwanda, Health Analytics, DHS, NISR, Health Transformation, Data Visualization",
+  icons: {
+    icon: "/next.svg",
+    shortcut: "/next.svg",
+    apple: "/next.svg",
+  },
 };
 
 export default function RootLayout({
