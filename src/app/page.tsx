@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-nsir-surface">
+    <div className="min-h-screen" style={{ backgroundColor: "#f8fafc" }}>
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-white">
         <div
@@ -16,19 +16,25 @@ export default function HomePage() {
         ></div>
         <div className="container mx-auto px-4 py-16 relative">
           <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center bg-white border border-gray-300 text-nsir-primary px-6 py-3 rounded-lg font-medium mb-8 shadow-sm">
+            <div
+              className="inline-flex items-center bg-white border border-gray-300 px-6 py-3 rounded-lg font-medium mb-8 shadow-sm"
+              style={{ color: "#2159A9" }}
+            >
               <Icon icon="mdi:trophy" className="w-5 h-5 mr-2" />
               NSIR Competition Entry • 978,687 Health Records Analyzed
             </div>
 
-            <h1 className="heading-nsir-1">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
               Rwanda's Health
-              <span className="text-nsir-primary block">
+              <span className="block" style={{ color: "#2159A9" }}>
                 Transformation Success
               </span>
             </h1>
 
-            <p className="text-nsir-body text-lg max-w-3xl mx-auto">
+            <p
+              className="text-lg max-w-3xl mx-auto"
+              style={{ color: "#4b5563" }}
+            >
               Explore 28 years of Rwanda's remarkable health transformation from
               1992 to 2020. Discover how evidence-based policy making and
               rigorous data analysis transformed a nation's health system into{" "}
@@ -39,7 +45,8 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Link
                 href="/dashboard"
-                className="btn-nsir-primary inline-flex items-center"
+                className="inline-flex items-center text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-sm hover:opacity-90"
+                style={{ backgroundColor: "#2159A9" }}
               >
                 <Icon icon="mdi:chart-line" className="w-5 h-5 mr-2" />
                 Explore Analytics Dashboard
@@ -47,7 +54,12 @@ export default function HomePage() {
               </Link>
               <Link
                 href="/transformation"
-                className="btn-nsir-secondary inline-flex items-center"
+                className="inline-flex items-center px-6 py-3 rounded-lg font-semibold transition-colors border hover:bg-gray-200"
+                style={{
+                  backgroundColor: "#f3f4f6",
+                  color: "#374151",
+                  borderColor: "#d1d5db",
+                }}
               >
                 <Icon icon="mdi:book-open-variant" className="w-5 h-5 mr-2" />
                 View Transformation Story
@@ -56,54 +68,176 @@ export default function HomePage() {
 
             {/* Key Achievement Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-              <div className="card-nsir text-center">
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 text-center">
                 <Icon
                   icon="mdi:database"
-                  className="w-8 h-8 text-nsir-primary mx-auto mb-3"
+                  className="w-8 h-8 mx-auto mb-3"
+                  style={{ color: "#2159A9" }}
                 />
-                <div className="text-3xl font-bold text-nsir-primary mb-2">
+                <div
+                  className="text-3xl font-bold mb-2"
+                  style={{ color: "#2159A9" }}
+                >
                   978,687
                 </div>
-                <div className="text-nsir-small font-medium">
+                <div
+                  className="text-sm font-medium"
+                  style={{ color: "#6b7280" }}
+                >
                   Health Records Analyzed
                 </div>
               </div>
-              <div className="card-nsir text-center">
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 text-center">
                 <Icon
                   icon="mdi:heart-pulse"
-                  className="w-8 h-8 text-nsir-primary mx-auto mb-3"
+                  className="w-8 h-8 mx-auto mb-3"
+                  style={{ color: "#2159A9" }}
                 />
-                <div className="text-3xl font-bold text-nsir-primary mb-2">
+                <div
+                  className="text-3xl font-bold mb-2"
+                  style={{ color: "#2159A9" }}
+                >
                   79%
                 </div>
-                <div className="text-nsir-small font-medium">
+                <div
+                  className="text-sm font-medium"
+                  style={{ color: "#6b7280" }}
+                >
                   Child Mortality Reduction
                 </div>
               </div>
-              <div className="card-nsir text-center">
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 text-center">
                 <Icon
                   icon="mdi:trending-up"
-                  className="w-8 h-8 text-nsir-primary mx-auto mb-3"
+                  className="w-8 h-8 mx-auto mb-3"
+                  style={{ color: "#2159A9" }}
                 />
-                <div className="text-3xl font-bold text-nsir-primary mb-2">
+                <div
+                  className="text-3xl font-bold mb-2"
+                  style={{ color: "#2159A9" }}
+                >
                   48→69
                 </div>
-                <div className="text-nsir-small font-medium">
+                <div
+                  className="text-sm font-medium"
+                  style={{ color: "#6b7280" }}
+                >
                   Life Expectancy Years
                 </div>
               </div>
-              <div className="card-nsir text-center">
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 text-center">
                 <Icon
                   icon="mdi:calendar-clock"
-                  className="w-8 h-8 text-nsir-primary mx-auto mb-3"
+                  className="w-8 h-8 mx-auto mb-3"
+                  style={{ color: "#2159A9" }}
                 />
-                <div className="text-3xl font-bold text-nsir-primary mb-2">
+                <div
+                  className="text-3xl font-bold mb-2"
+                  style={{ color: "#2159A9" }}
+                >
                   28
                 </div>
-                <div className="text-nsir-small font-medium">
+                <div
+                  className="text-sm font-medium"
+                  style={{ color: "#6b7280" }}
+                >
                   Years of Progress
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* AI Chat Section */}
+      <section className="bg-gradient-to-r from-blue-50 to-indigo-50 py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center bg-white border border-blue-200 text-blue-700 px-6 py-3 rounded-lg font-semibold mb-6 shadow-sm">
+                <Icon icon="mdi:robot" className="w-5 h-5 mr-2" />
+                AI-Powered Health Analytics
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Ask Our AI About Rwanda's
+                <span className="text-blue-600 block">
+                  Health Transformation
+                </span>
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Get instant insights from 978,687 health records. Ask about
+                trends, predictions advices, or policy impacts using natural
+                language.
+              </p>
+            </div>
+
+            {/* Quick Action Buttons */}
+            <div className="grid md:grid-cols-3 gap-4 mb-8">
+              <button className="bg-white hover:bg-gray-50 border border-gray-200 rounded-lg p-4 text-left transition-colors">
+                <div className="flex items-start gap-3">
+                  <Icon
+                    icon="mdi:chart-line-variant"
+                    className="w-6 h-6 text-blue-600 mt-1"
+                  />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">
+                      Health Trends
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      "How did child mortality change from 1992 to 2020?"
+                    </p>
+                  </div>
+                </div>
+              </button>
+
+              <button className="bg-white hover:bg-gray-50 border border-gray-200 rounded-lg p-4 text-left transition-colors">
+                <div className="flex items-start gap-3">
+                  <Icon
+                    icon="mdi:crystal-ball"
+                    className="w-6 h-6 text-purple-600 mt-1"
+                  />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">
+                      Predictions
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      "Predict Rwanda's health outcomes for 2030"
+                    </p>
+                  </div>
+                </div>
+              </button>
+
+              <button className="bg-white hover:bg-gray-50 border border-gray-200 rounded-lg p-4 text-left transition-colors">
+                <div className="flex items-start gap-3">
+                  <Icon
+                    icon="mdi:map-marker-multiple"
+                    className="w-6 h-6 text-green-600 mt-1"
+                  />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">
+                      Provincial Comparison
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      "Which province leads in vaccination coverage?"
+                    </p>
+                  </div>
+                </div>
+              </button>
+            </div>
+
+            {/* CTA to AI Dashboard */}
+            <div className="text-center">
+              <Link
+                href="/dashboard"
+                className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors shadow-lg"
+              >
+                <Icon icon="mdi:robot" className="w-6 h-6 mr-3" />
+                Try AI Health Analytics
+                <ArrowRight className="ml-3 h-6 w-6" />
+              </Link>
+              <p className="text-sm text-gray-500 mt-3">
+                Access full AI dashboard with chat, insights, and predictions
+              </p>
             </div>
           </div>
         </div>
@@ -113,10 +247,10 @@ export default function HomePage() {
       <section className="bg-white py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="heading-nsir-2">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Transformational Health Achievements
             </h2>
-            <p className="text-nsir-body max-w-3xl mx-auto">
+            <p className="max-w-3xl mx-auto" style={{ color: "#4b5563" }}>
               Three decades of evidence-based health policy implementation have
               delivered measurable improvements across every major health
               indicator, establishing Rwanda as Africa's premier health
@@ -127,7 +261,11 @@ export default function HomePage() {
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             <AchievementCard
               icon={
-                <Icon icon="mdi:baby" className="h-12 w-12 text-nsir-error" />
+                <Icon
+                  icon="mdi:baby"
+                  className="h-12 w-12"
+                  style={{ color: "#2159A9" }}
+                />
               }
               title="Child Health Revolution"
               before="151 per 1,000"
@@ -139,7 +277,8 @@ export default function HomePage() {
               icon={
                 <Icon
                   icon="mdi:heart-pulse"
-                  className="h-12 w-12 text-nsir-primary"
+                  className="h-12 w-12"
+                  style={{ color: "#2159A9" }}
                 />
               }
               title="Maternal Care Excellence"
@@ -152,7 +291,8 @@ export default function HomePage() {
               icon={
                 <Icon
                   icon="mdi:shield-check"
-                  className="h-12 w-12 text-nsir-success"
+                  className="h-12 w-12"
+                  style={{ color: "#2159A9" }}
                 />
               }
               title="Vaccination Success"
@@ -166,11 +306,13 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="bg-nsir-surface py-20">
+      <section className="py-20" style={{ backgroundColor: "#f8fafc" }}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="heading-nsir-2">Professional Analytics Platform</h2>
-            <p className="text-nsir-body max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Professional Analytics Platform
+            </h2>
+            <p className="max-w-3xl mx-auto" style={{ color: "#4b5563" }}>
               Access comprehensive health analytics tools designed for policy
               makers, researchers, and development professionals working with
               African health data.
@@ -182,7 +324,8 @@ export default function HomePage() {
               icon={
                 <Icon
                   icon="mdi:chart-timeline-variant"
-                  className="h-10 w-10 text-nsir-primary"
+                  className="h-10 w-10"
+                  style={{ color: "#2159A9" }}
                 />
               }
               title="28-Year Timeline Analysis"
@@ -194,7 +337,8 @@ export default function HomePage() {
               icon={
                 <Icon
                   icon="mdi:map-marker-radius"
-                  className="h-10 w-10 text-nsir-success"
+                  className="h-10 w-10"
+                  style={{ color: "#2159A9" }}
                 />
               }
               title="5-Province Coverage"
@@ -206,7 +350,8 @@ export default function HomePage() {
               icon={
                 <Icon
                   icon="mdi:chart-bar"
-                  className="h-10 w-10 text-nsir-primary-light"
+                  className="h-10 w-10"
+                  style={{ color: "#2159A9" }}
                 />
               }
               title="Interactive Visualizations"
@@ -217,8 +362,9 @@ export default function HomePage() {
             <FeatureCard
               icon={
                 <Icon
-                  icon="mdi:brain"
-                  className="h-10 w-10 text-nsir-warning"
+                  icon="mdi:lightbulb-on"
+                  className="h-10 w-10"
+                  style={{ color: "#2159A9" }}
                 />
               }
               title="AI-Ready Dataset"
@@ -231,7 +377,10 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative overflow-hidden bg-nsir-primary">
+      <section
+        className="relative overflow-hidden"
+        style={{ backgroundColor: "#2159A9" }}
+      >
         <div className="container mx-auto px-4 py-20 relative">
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center bg-white/20 backdrop-blur text-white px-6 py-3 rounded-lg font-medium mb-8">
@@ -252,7 +401,8 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link
                 href="/dashboard"
-                className="inline-flex items-center bg-white text-nsir-primary px-8 py-4 rounded-lg font-semibold hover:bg-gray-50 transition-all shadow-lg"
+                className="inline-flex items-center text-white px-8 py-4 rounded-lg font-semibold transition-all shadow-lg"
+                style={{ backgroundColor: "white", color: "#2159A9" }}
               >
                 <Icon icon="mdi:chart-box" className="mr-3 h-5 w-5" />
                 Start Data Exploration
@@ -275,7 +425,10 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center space-x-3 mb-6">
-              <div className="h-10 w-10 bg-nsir-primary rounded-lg flex items-center justify-center">
+              <div
+                className="h-10 w-10 rounded-lg flex items-center justify-center"
+                style={{ backgroundColor: "#2159A9" }}
+              >
                 <Icon icon="mdi:chart-line" className="h-6 w-6 text-white" />
               </div>
               <div className="text-left">
@@ -376,15 +529,24 @@ function FeatureCard({
 }) {
   return (
     <Link href={href} className="group">
-      <div className="card-nsir hover:shadow-xl transition-all duration-300 group transform hover:scale-105">
+      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 group transform hover:scale-105">
         <div className="mb-6">{icon}</div>
-        <h3 className="heading-nsir-3 group-hover:text-nsir-primary transition-colors">
+        <h3
+          className="text-xl font-bold mb-3 transition-colors"
+          style={{ color: "#1f2937" }}
+        >
           {title}
         </h3>
-        <p className="text-nsir-body text-sm leading-relaxed mb-4">
+        <p
+          className="text-sm leading-relaxed mb-4"
+          style={{ color: "#4b5563" }}
+        >
           {description}
         </p>
-        <div className="text-xs font-medium text-nsir-primary bg-blue-50 px-3 py-1 rounded-full inline-block">
+        <div
+          className="text-xs font-medium px-3 py-1 rounded-full inline-block"
+          style={{ color: "#2159A9", backgroundColor: "#eff6ff" }}
+        >
           {stats}
         </div>
       </div>
@@ -408,17 +570,24 @@ function AchievementCard({
   description: string;
 }) {
   return (
-    <div className="card-nsir hover:shadow-xl transition-all duration-300 group">
+    <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 group">
       <div className="text-center mb-6">
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gray-50 mb-4 shadow-lg group-hover:scale-110 transition-transform">
+        <div
+          className="inline-flex items-center justify-center w-20 h-20 rounded-2xl shadow-lg group-hover:scale-110 transition-transform"
+          style={{ backgroundColor: "#f9fafb" }}
+        >
           {icon}
         </div>
-        <h3 className="heading-nsir-3">{title}</h3>
+        <h3 className="text-xl font-bold mt-4" style={{ color: "#1f2937" }}>
+          {title}
+        </h3>
       </div>
 
       <div className="space-y-4">
         <div className="flex justify-between items-center p-3 bg-red-50 rounded-xl">
-          <span className="text-sm font-medium text-gray-600">Before 1990s:</span>
+          <span className="text-sm font-medium text-gray-600">
+            Before 1990s:
+          </span>
           <span className="font-bold text-red-600">{before}</span>
         </div>
 
@@ -427,14 +596,22 @@ function AchievementCard({
           <span className="font-bold text-green-600">{after}</span>
         </div>
 
-        <div className="text-center p-4 bg-nsir-surface rounded-xl">
-          <div className="text-2xl font-bold text-nsir-primary mb-1">
+        <div
+          className="text-center p-4 rounded-xl"
+          style={{ backgroundColor: "#f8fafc" }}
+        >
+          <div className="text-2xl font-bold mb-1" style={{ color: "#2159A9" }}>
             {improvement}
           </div>
-          <div className="text-nsir-small">Total Improvement</div>
+          <div className="text-sm" style={{ color: "#6b7280" }}>
+            Total Improvement
+          </div>
         </div>
 
-        <p className="text-nsir-small text-center leading-relaxed">
+        <p
+          className="text-sm text-center leading-relaxed"
+          style={{ color: "#6b7280" }}
+        >
           {description}
         </p>
       </div>

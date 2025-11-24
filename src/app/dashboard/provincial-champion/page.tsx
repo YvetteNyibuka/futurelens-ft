@@ -109,7 +109,7 @@ export default function ProvincialChampionPage() {
         "Strong vaccination program",
         "Community health leadership",
       ],
-      color: "var(--nsir-gray)",
+      color: "#6b7280",
     },
     {
       province: "Western",
@@ -151,7 +151,7 @@ export default function ProvincialChampionPage() {
         "Strong community programs",
         "Agricultural health",
       ],
-      color: "var(--nsir-primary)",
+      color: "#2159A9",
     },
     {
       province: "Eastern",
@@ -172,7 +172,7 @@ export default function ProvincialChampionPage() {
         "Health equity focus",
         "Innovation adoption",
       ],
-      color: "var(--nsir-success)",
+      color: "#059669",
     },
   ];
 
@@ -182,38 +182,38 @@ export default function ProvincialChampionPage() {
       key: "overall" as const,
       label: "Overall Performance",
       unit: "score",
-      color: "var(--nsir-primary)",
+      color: "#2159A9",
     },
     {
       key: "childMortality" as const,
       label: "Child Mortality",
       unit: "per 1,000",
-      color: "var(--nsir-error)",
+      color: "#dc2626",
       inverse: true,
     },
     {
       key: "vaccination" as const,
       label: "Vaccination Coverage",
       unit: "%",
-      color: "var(--nsir-success)",
+      color: "#059669",
     },
     {
       key: "skilledDelivery" as const,
       label: "Skilled Delivery",
       unit: "%",
-      color: "var(--nsir-primary)",
+      color: "#2159A9",
     },
     {
       key: "waterAccess" as const,
       label: "Water Access",
       unit: "%",
-      color: "var(--nsir-info)",
+      color: "#0ea5e9",
     },
     {
       key: "electricityAccess" as const,
       label: "Electricity Access",
       unit: "%",
-      color: "var(--nsir-warning)",
+      color: "#f59e0b",
     },
   ];
 
@@ -281,18 +281,27 @@ export default function ProvincialChampionPage() {
   const currentMetric = metrics.find((m) => m.key === selectedMetric);
 
   return (
-    <div className="min-h-screen bg-nsir-surface p-4 md:p-8">
+    <div
+      className="min-h-screen p-4 md:p-8"
+      style={{ backgroundColor: "#f8fafc" }}
+    >
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-12">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center bg-nsir-primary text-white px-6 py-3 rounded-lg text-sm font-semibold mb-6 shadow-md">
+          <div
+            className="inline-flex items-center text-white px-6 py-3 rounded-lg text-sm font-semibold mb-6 shadow-md"
+            style={{ backgroundColor: "#2159A9" }}
+          >
             <Icon icon="mdi:trophy" className="w-5 h-5 mr-2" />
             Provincial Health Champions League
           </div>
 
-          <h1 className="heading-nsir-1 text-nsir-dark mb-6">
+          <h1
+            className="text-4xl md:text-5xl font-bold mb-6"
+            style={{ color: "#1f2937" }}
+          >
             Rwanda's Health
-            <span className="text-nsir-primary"> Champions</span>
+            <span style={{ color: "#2159A9" }}> Champions</span>
           </h1>
 
           <p className="text-xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed">
@@ -308,11 +317,14 @@ export default function ProvincialChampionPage() {
             <button
               key={metric.key}
               onClick={() => setSelectedMetric(metric.key)}
-              className={`px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-200 ${
-                selectedMetric === metric.key
-                  ? "btn-nsir-primary"
-                  : "btn-nsir-secondary"
-              }`}
+              className="px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-200"
+              style={{
+                backgroundColor:
+                  selectedMetric === metric.key ? "#2159A9" : "#f3f4f6",
+                color: selectedMetric === metric.key ? "white" : "#374151",
+                border:
+                  selectedMetric === metric.key ? "none" : "1px solid #d1d5db",
+              }}
             >
               {metric.label}
             </button>
@@ -322,8 +334,11 @@ export default function ProvincialChampionPage() {
 
       {/* Provincial Rankings */}
       <div className="max-w-7xl mx-auto mb-12">
-        <div className="card-nsir">
-          <h2 className="heading-nsir-2 text-nsir-dark mb-8 text-center">
+        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
+          <h2
+            className="text-2xl font-bold mb-8 text-center"
+            style={{ color: "#1f2937" }}
+          >
             Provincial Leaderboard - {currentMetric?.label}
           </h2>
 
@@ -339,27 +354,37 @@ export default function ProvincialChampionPage() {
               .map((province, index) => (
                 <div
                   key={province.province}
-                  className={`relative flex items-center p-6 rounded-lg border-2 transition-all duration-300 hover:shadow-lg ${
-                    index === 0
-                      ? "bg-white border-nsir-warning shadow-md"
-                      : index === 1
-                      ? "bg-white border-nsir-gray shadow-sm"
-                      : index === 2
-                      ? "bg-white border-nsir-warning/50 shadow-sm"
-                      : "bg-white border-nsir-gray/30"
-                  }`}
+                  className="relative flex items-center p-6 rounded-lg border-2 transition-all duration-300 hover:shadow-lg bg-white"
+                  style={{
+                    borderColor:
+                      index === 0
+                        ? "#f59e0b"
+                        : index === 1
+                        ? "#6b7280"
+                        : index === 2
+                        ? "#f59e0b80"
+                        : "#6b728050",
+                    boxShadow:
+                      index === 0
+                        ? "0 4px 6px -1px rgba(0, 0, 0, 0.1)"
+                        : index <= 2
+                        ? "0 1px 3px 0 rgba(0, 0, 0, 0.1)"
+                        : "none",
+                  }}
                 >
                   {/* Rank Badge */}
                   <div
-                    className={`shrink-0 w-16 h-16 rounded-lg flex items-center justify-center text-xl font-bold mr-6 ${
-                      index === 0
-                        ? "bg-nsir-warning text-white"
-                        : index === 1
-                        ? "bg-nsir-gray text-white"
-                        : index === 2
-                        ? "bg-nsir-warning/70 text-white"
-                        : "bg-nsir-primary text-white"
-                    }`}
+                    className="shrink-0 w-16 h-16 rounded-lg flex items-center justify-center text-xl font-bold mr-6 text-white"
+                    style={{
+                      backgroundColor:
+                        index === 0
+                          ? "#f59e0b"
+                          : index === 1
+                          ? "#6b7280"
+                          : index === 2
+                          ? "#f59e0bb3"
+                          : "#2159A9",
+                    }}
                   >
                     {index + 1}
                   </div>
@@ -367,7 +392,10 @@ export default function ProvincialChampionPage() {
                   {/* Province Info */}
                   <div className="flex-1">
                     <div className="flex items-center mb-2">
-                      <h3 className="text-xl font-semibold text-nsir-dark">
+                      <h3
+                        className="text-xl font-semibold"
+                        style={{ color: "#1f2937" }}
+                      >
                         {province.province}
                       </h3>
                       <Icon
@@ -380,18 +408,23 @@ export default function ProvincialChampionPage() {
                             ? "mdi:medal-outline"
                             : "mdi:star"
                         }
-                        className={`ml-3 w-6 h-6 ${
-                          index === 0
-                            ? "text-nsir-warning"
-                            : index === 1
-                            ? "text-nsir-gray"
-                            : index === 2
-                            ? "text-nsir-warning/70"
-                            : "text-nsir-primary"
-                        }`}
+                        className="ml-3 w-6 h-6"
+                        style={{
+                          color:
+                            index === 0
+                              ? "#f59e0b"
+                              : index === 1
+                              ? "#6b7280"
+                              : index === 2
+                              ? "#f59e0bb3"
+                              : "#2159A9",
+                        }}
                       />
                       {index === 0 && (
-                        <div className="ml-4 bg-nsir-warning text-white px-3 py-1 rounded-lg text-xs font-semibold">
+                        <div
+                          className="ml-4 text-white px-3 py-1 rounded-lg text-xs font-semibold"
+                          style={{ backgroundColor: "#f59e0b" }}
+                        >
                           CHAMPION
                         </div>
                       )}
@@ -406,7 +439,11 @@ export default function ProvincialChampionPage() {
                       {province.achievements.map((achievement, i) => (
                         <span
                           key={i}
-                          className="bg-nsir-primary/10 text-nsir-primary px-3 py-1 rounded-lg text-xs font-medium"
+                          className="px-3 py-1 rounded-lg text-xs font-medium"
+                          style={{
+                            backgroundColor: "#2159A91a",
+                            color: "#2159A9",
+                          }}
                         >
                           {achievement}
                         </span>
@@ -416,13 +453,19 @@ export default function ProvincialChampionPage() {
 
                   {/* Metric Value */}
                   <div className="shrink-0 text-right">
-                    <div className="text-2xl font-semibold text-nsir-primary">
+                    <div
+                      className="text-2xl font-semibold"
+                      style={{ color: "#2159A9" }}
+                    >
                       {province[selectedMetric]}
-                      <span className="text-lg text-nsir-gray ml-1">
+                      <span
+                        className="text-lg ml-1"
+                        style={{ color: "#6b7280" }}
+                      >
                         {currentMetric?.unit}
                       </span>
                     </div>
-                    <div className="text-sm text-nsir-gray">
+                    <div className="text-sm" style={{ color: "#6b7280" }}>
                       Rank #{index + 1}
                     </div>
                   </div>
@@ -432,7 +475,10 @@ export default function ProvincialChampionPage() {
 
           {/* Performance Chart */}
           <div className="mt-12">
-            <h3 className="heading-nsir-3 text-nsir-dark mb-6 text-center">
+            <h3
+              className="text-xl font-bold mb-6 text-center"
+              style={{ color: "#1f2937" }}
+            >
               Provincial Performance Comparison
             </h3>
             <ResponsiveContainer width="100%" height={400}>
@@ -459,7 +505,7 @@ export default function ProvincialChampionPage() {
                 />
                 <Bar
                   dataKey={selectedMetric}
-                  fill="var(--nsir-primary)"
+                  fill="#2159A9"
                   radius={[4, 4, 0, 0]}
                   name={currentMetric?.label}
                 />
@@ -471,8 +517,11 @@ export default function ProvincialChampionPage() {
 
       {/* Historical Progress */}
       <div className="max-w-7xl mx-auto mb-12">
-        <div className="card-nsir">
-          <h2 className="heading-nsir-2 text-nsir-dark mb-8 text-center">
+        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
+          <h2
+            className="text-2xl font-bold mb-8 text-center"
+            style={{ color: "#1f2937" }}
+          >
             28-Year Provincial Progress Journey
           </h2>
 
@@ -499,28 +548,28 @@ export default function ProvincialChampionPage() {
               <Line
                 type="monotone"
                 dataKey="1992"
-                stroke="var(--nsir-error)"
+                stroke="#dc2626"
                 strokeWidth={3}
                 name="1992"
               />
               <Line
                 type="monotone"
                 dataKey="2000"
-                stroke="var(--nsir-warning)"
+                stroke="#f59e0b"
                 strokeWidth={3}
                 name="2000"
               />
               <Line
                 type="monotone"
                 dataKey="2010"
-                stroke="var(--nsir-primary)"
+                stroke="#2159A9"
                 strokeWidth={3}
                 name="2010"
               />
               <Line
                 type="monotone"
                 dataKey="2020"
-                stroke="var(--nsir-success)"
+                stroke="#059669"
                 strokeWidth={4}
                 name="2020"
               />
@@ -529,101 +578,17 @@ export default function ProvincialChampionPage() {
         </div>
       </div>
 
-      {/* Radar Comparison */}
-      <div className="max-w-7xl mx-auto">
-        <div className="card-nsir">
-          <h2 className="heading-nsir-2 text-nsir-dark mb-8 text-center">
-            Multi-Dimensional Health Performance
-          </h2>
-
-          <ResponsiveContainer width="100%" height={500}>
-            <RadarChart
-              data={radarData}
-              margin={{ top: 20, right: 80, bottom: 20, left: 80 }}
-            >
-              <PolarGrid stroke="#e5e7eb" />
-              <PolarAngleAxis tick={{ fontSize: 12, fontWeight: 600 }} />
-              <PolarRadiusAxis
-                domain={[0, 100]}
-                tick={{ fontSize: 10 }}
-                angle={90}
-                tickCount={6}
-              />
-
-              <Radar
-                name="Kigali City"
-                dataKey="Kigali"
-                stroke="var(--nsir-warning)"
-                fill="var(--nsir-warning)"
-                fillOpacity={0.3}
-                strokeWidth={3}
-              />
-              <Radar
-                name="Southern"
-                dataKey="Southern"
-                stroke="var(--nsir-gray)"
-                fill="var(--nsir-gray)"
-                fillOpacity={0.2}
-                strokeWidth={2}
-              />
-              <Radar
-                name="Northern"
-                dataKey="Northern"
-                stroke="var(--nsir-primary)"
-                fill="var(--nsir-primary)"
-                fillOpacity={0.2}
-                strokeWidth={2}
-              />
-              <Radar
-                name="Western"
-                dataKey="Western"
-                stroke="#CD7F32"
-                fill="#CD7F32"
-                fillOpacity={0.2}
-                strokeWidth={2}
-              />
-              <Radar
-                name="Eastern"
-                dataKey="Eastern"
-                stroke="var(--nsir-success)"
-                fill="var(--nsir-success)"
-                fillOpacity={0.2}
-                strokeWidth={2}
-              />
-
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "white",
-                  border: "1px solid #e5e7eb",
-                  borderRadius: "12px",
-                  boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
-                }}
-              />
-            </RadarChart>
-          </ResponsiveContainer>
-
-          <div className="grid grid-cols-5 gap-4 mt-8">
-            {provincialData.map((province) => (
-              <div key={province.province} className="text-center">
-                <div
-                  className="w-4 h-4 rounded-full mx-auto mb-2"
-                  style={{ backgroundColor: province.color }}
-                ></div>
-                <div className="text-sm font-medium text-gray-700">
-                  {province.province}
-                </div>
-                <div className="text-xs text-gray-500">
-                  Rank #{province.rank}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
 
       {/* Data Attribution */}
       <div className="max-w-7xl mx-auto mt-12 text-center">
-        <div className="inline-flex items-center bg-nsir-primary/10 text-nsir-primary px-8 py-4 rounded-lg border border-nsir-primary/20">
+        <div
+          className="inline-flex items-center px-8 py-4 rounded-lg"
+          style={{
+            backgroundColor: "#2159A91a",
+            color: "#2159A9",
+            border: "1px solid #2159A933",
+          }}
+        >
           <Icon icon="mdi:map-marker" className="h-5 w-5 mr-3" />
           <span className="font-semibold">
             Analysis based on 978,687 health records across all 5 provinces

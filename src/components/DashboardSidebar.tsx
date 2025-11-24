@@ -41,24 +41,13 @@ export default function DashboardSidebar({
       icon: BarChart3,
       // badge: "978K",
     },
-    // {
-    //   href: "/dashboard/analytics-rich",
-    //   label: "Interactive Analytics",
-    //   icon: Activity,
-    //   badge: "Live",
-    // },
     {
       href: "/dashboard/transformation-story",
       label: "Rwanda's Miracle",
       icon: Award,
       // badge: "28Y",
     },
-    {
-      href: "/dashboard/real-time-insights",
-      label: "AI Insights",
-      icon: Brain,
-      // badge: "ML",
-    },
+  
     {
       href: "/dashboard/policy-impact",
       label: "Policy Impact",
@@ -98,22 +87,6 @@ export default function DashboardSidebar({
       icon: Globe,
       // badge: "Africa #1",
     },
-  ];
-
-  const specialFeatures = [
-    {
-      href: "/dashboard/health-heroes",
-      label: "Health Heroes",
-      icon: Baby,
-      badge: "Child ↓79%",
-    },
-    {
-      href: "/dashboard/vaccination-success",
-      label: "Vaccination Victory",
-      icon: Shield,
-      badge: "97%",
-    },
-    { href: "/", label: "Home", icon: Home, badge: null },
   ];
 
   return (
@@ -232,63 +205,6 @@ export default function DashboardSidebar({
             </h3>
             <nav className="space-y-1">
               {analyticsSections.map((item) => {
-                const Icon = item.icon;
-                const isActive = pathname === item.href;
-
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setSidebarOpen(false)}
-                    className="group flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150"
-                    style={{
-                      backgroundColor: isActive ? "#2159A9" : "transparent",
-                      color: isActive ? "#ffffff" : "#1f2937",
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!isActive) {
-                        e.currentTarget.style.backgroundColor = "#f0f4ff";
-                        e.currentTarget.style.color = "#2159A9";
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!isActive) {
-                        e.currentTarget.style.backgroundColor = "transparent";
-                        e.currentTarget.style.color = "#1f2937";
-                      }
-                    }}
-                  >
-                    <Icon className="h-4 w-4" />
-                    <span className="flex-1">{item.label}</span>
-                    {/* {item.badge && (
-                      <span
-                        className="px-2 py-0.5 text-xs rounded-md font-medium"
-                        style={{
-                          backgroundColor: isActive
-                            ? "rgba(255,255,255,0.2)"
-                            : "#f3f4f6",
-                          color: isActive ? "#ffffff" : "#6b7280",
-                        }}
-                      >
-                        {item.badge}
-                      </span>
-                    )} */}
-                  </Link>
-                );
-              })}
-            </nav>
-          </div>
-
-          {/* Special Features */}
-          <div>
-            <h3
-              className="text-xs font-medium uppercase tracking-wider mb-3 px-2"
-              style={{ color: "#6b7280" }}
-            >
-              Features
-            </h3>
-            <nav className="space-y-1">
-              {specialFeatures.map((item) => {
                 const Icon = item.icon;
                 const isActive = pathname === item.href;
 

@@ -1,7 +1,7 @@
 "use client";
 
-import RichHealthDashboard from "@/components/dashboard/RichHealthDashboard";
+import AIEnhancedDashboard from "@/components/ai/AIEnhancedDashboard";
 
 export default function NewDashboardPage() {
-  return <RichHealthDashboard />;
+  return <AIEnhancedDashboard />;
 }
